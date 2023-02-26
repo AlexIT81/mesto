@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Жак-Ив Кусто - исследователь океана!</title>
+  <meta name="description" content="Жак-Ив Кусто - французский исследователь Мирового океана, фотограф, режиссёр, изобретатель, автор множества книг и фильмов.">
+  <meta name="keywords" content="Жак-Ив, Кусто, Жак-Ив Кусто, французский исследователь">
+  <link rel="icon" href="./images/favicon.png">
+  <link rel="stylesheet" href="./pages/index.css">
+</head>
+<body class="page">
+  <div class="root page__root">
+    <header class="header root__header">
+      <a class="main-link" href="./index.html" title="Проект - Место">
+        <img src="./images/logo.png" alt="Проект - Место." class="header__logo">
+      </a>
+    </header>
+    <main class="root__main">
+      <section class="profile root__profile">
+        <img src="./images/jak-iv_kusto.jpg" alt="Жак-Ив Кусто - французский исследователь Мирового океана, фотограф, режиссёр, изобретатель, автор множества книг и фильмов." class="profile__avatar">
+        <div class="profile__info-wrapper">
+          <div class="profile__info">
+            <h1 class="profile__title">Жак-Ив Кусто</h1>
+            <button class="profile__edit-btn main-link"></button>
+          </div>
+          <p class="profile__sub-title">Исследователь океана</p>
+        </div>
+        <button class="profile__add-btn main-link"></button>
+      </section>
+      <section class="root__elements-wrapper">
+        <ul class="elements root__elements">
+          <li class="element">
+            <img class="element__img" src="./images/gallery/kirill-pershin-1088404-unsplash.jpg" alt="Карачаевск.">
+            <div class="element__block">
+              <h2 class="element__title">Карачаевск</h2>
+              <img src="./images/not-liked.png" alt="Поставь лайк." class="element__icon">
+            </div>
+          </li>
+          <li class="element">
+            <img class="element__img" src="./images/gallery/kirill-pershin-1556355-unsplash.png" alt="Гора Эльбрус.">
+            <div class="element__block">
+              <h2 class="element__title">Гора Эльбрус</h2>
+              <img src="./images/not-liked.png" alt="Поставь лайк." class="element__icon">
+            </div>
+          </li>
+          <li class="element">
+            <img class="element__img" src="./images/gallery/kirill-pershin-1404681-unsplash.png" alt="Домбай.">
+            <div class="element__block">
+              <h2 class="element__title">Домбай</h2>
+              <img src="./images/not-liked.png" alt="Поставь лайк." class="element__icon">
+            </div>
+          </li>
+          <li class="element">
+            <img class="element__img" src="./images/gallery/kirill-pershin-1556355-unsplash.png" alt="Гора Эльбрус.">
+            <div class="element__block">
+              <h2 class="element__title">Гора Эльбрус</h2>
+              <img src="./images/not-liked.png" alt="Поставь лайк." class="element__icon">
+            </div>
+          </li>
+          <li class="element">
+            <img class="element__img" src="./images/gallery/kirill-pershin-1404681-unsplash.png" alt="Домбай.">
+            <div class="element__block">
+              <h2 class="element__title">Домбай</h2>
+              <img src="./images/not-liked.png" alt="Поставь лайк." class="element__icon">
+            </div>
+          </li>
+          <li class="element">
+            <img class="element__img" src="./images/gallery/kirill-pershin-1088404-unsplash.jpg" alt="Карачаево-Черкесия.">
+            <div class="element__block">
+              <h2 class="element__title">Карачаево-Черкесия</h2>
+              <img src="./images/not-liked.png" alt="Поставь лайк." class="element__icon">
+            </div>
+          </li>
+        </ul>
+      </section>
+    </main>
+    <footer class="footer root__footer">
+      <p class="footer__text">&copy; 2023 Mesto Russia</p>
+    </footer>
+    <div class="popup">
+      <form action="./" class="popup__container">
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <input class="popup__input" type="text" name="name" required placeholder="Жак-Ив Кусто">
+        <input class="popup__input" type="text" name="job" required placeholder="Исследователь океана">
+        <button class="popup__button" type="submit">Сохранить</button>
+        <img class="popup__close main-link" src="./images/popup_close.png" alt="Закрыть форму">
+      </form>
+    </div>
+  </div>
+  <script src="./scripts/index.js"></script>
+</body>
+</html>

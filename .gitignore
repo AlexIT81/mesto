@@ -1,0 +1,7 @@
+# dependencies
+/node_modules
+/temp
+
+# misc
+package-lock.json
+package.json
