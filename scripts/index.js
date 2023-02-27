@@ -10,21 +10,15 @@ window.addEventListener('DOMContentLoaded', () => {
 
   triggerModalEdit.addEventListener("click", () => {
     modalEdit.classList.add("popup_opened");
-    document.body.style.overflow = "hidden";
-    document.body.style.marginRight = verticalScrollbarWidth() + "px";
     nameInput.value = nameValue.textContent;
     jobInput.value = jobValue.textContent;
   });
 
   function closeModal() {
     modalEdit.classList.remove("popup_opened");
-    document.body.style.marginRight = 0;
-    document.body.style.overflow = "";
   }
 
-  closeModals.addEventListener("click", () => {
-    closeModal();
-  });
+  closeModals.addEventListener("click", closeModal);
 
   function handleFormSubmit(evt) {
     evt.preventDefault();
@@ -34,19 +28,4 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   formElement.addEventListener("submit", handleFormSubmit);
-
-  function verticalScrollbarWidth() {
-    let outerDiv = document.createElement("div");
-    outerDiv.style.visibility = "hidden";
-    outerDiv.style.overflowY = "scroll";
-    document.body.appendChild(outerDiv);
-
-    let innerDiv = document.createElement("div");
-    outerDiv.appendChild(innerDiv);
-
-    let scrollbarWidth = outerDiv.offsetWidth - innerDiv.offsetWidth;
-    outerDiv.remove();
-
-    return scrollbarWidth;
-  }
 });
