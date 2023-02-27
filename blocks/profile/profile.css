@@ -5,7 +5,7 @@
   gap: 30px;
 }
 
-@media (max-width: 619px) {
+@media (max-width: 730px) {
   .profile {
     flex-flow: column nowrap;
     justify-content: center;

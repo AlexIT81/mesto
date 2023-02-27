@@ -9,7 +9,7 @@
   overflow: hidden;
 }
 
-@media (max-width: 619px) {
+@media (max-width: 730px) {
   .profile__title {
     margin-left: 27px;
     max-width: 189px;

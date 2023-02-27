@@ -9,7 +9,7 @@
   overflow: hidden;
 }
 
-@media (max-width: 619px) {
+@media (max-width: 730px) {
   .profile__sub-title {
     text-align: center;
     font-size: 14px;
