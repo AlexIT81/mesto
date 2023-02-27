@@ -14,7 +14,7 @@
   <div class="root page__root">
     <header class="header root__header">
       <a class="main-link" href="./index.html" title="Проект - Место">
-        <img src="./images/logo.png" alt="Проект - Место." class="header__logo">
+        <img src="./images/logo.svg" alt="Проект - Место." class="header__logo">
       </a>
     </header>
     <main class="root__main">
@@ -23,11 +23,11 @@
         <div class="profile__info-wrapper">
           <div class="profile__info">
             <h1 class="profile__title">Жак-Ив Кусто</h1>
-            <button class="profile__edit-btn main-link"></button>
+            <button class="profile__edit-btn main-link" type="button"></button>
           </div>
           <p class="profile__sub-title">Исследователь океана</p>
         </div>
-        <button class="profile__add-btn main-link"></button>
+        <button class="profile__add-btn main-link" type="button"></button>
       </section>
       <section class="root__elements-wrapper">
         <ul class="elements root__elements">
@@ -35,42 +35,42 @@
             <img class="element__img" src="./images/gallery/kirill-pershin-1088404-unsplash.jpg" alt="Карачаевск.">
             <div class="element__block">
               <h2 class="element__title">Карачаевск</h2>
-              <img src="./images/not-liked.png" alt="Поставь лайк." class="element__icon">
+              <button class="element__icon element__icon_active" type="button"></button>
             </div>
           </li>
           <li class="element">
             <img class="element__img" src="./images/gallery/kirill-pershin-1556355-unsplash.png" alt="Гора Эльбрус.">
             <div class="element__block">
               <h2 class="element__title">Гора Эльбрус</h2>
-              <img src="./images/not-liked.png" alt="Поставь лайк." class="element__icon">
+              <button class="element__icon" type="button"></button>
             </div>
           </li>
           <li class="element">
             <img class="element__img" src="./images/gallery/kirill-pershin-1404681-unsplash.png" alt="Домбай.">
             <div class="element__block">
               <h2 class="element__title">Домбай</h2>
-              <img src="./images/not-liked.png" alt="Поставь лайк." class="element__icon">
+              <button class="element__icon" type="button"></button>
             </div>
           </li>
           <li class="element">
             <img class="element__img" src="./images/gallery/kirill-pershin-1556355-unsplash.png" alt="Гора Эльбрус.">
             <div class="element__block">
               <h2 class="element__title">Гора Эльбрус</h2>
-              <img src="./images/not-liked.png" alt="Поставь лайк." class="element__icon">
+              <button class="element__icon" type="button"></button>
             </div>
           </li>
           <li class="element">
             <img class="element__img" src="./images/gallery/kirill-pershin-1404681-unsplash.png" alt="Домбай.">
             <div class="element__block">
               <h2 class="element__title">Домбай</h2>
-              <img src="./images/not-liked.png" alt="Поставь лайк." class="element__icon">
+              <button class="element__icon" type="button"></button>
             </div>
           </li>
           <li class="element">
             <img class="element__img" src="./images/gallery/kirill-pershin-1088404-unsplash.jpg" alt="Карачаево-Черкесия.">
             <div class="element__block">
               <h2 class="element__title">Карачаево-Черкесия</h2>
-              <img src="./images/not-liked.png" alt="Поставь лайк." class="element__icon">
+              <button class="element__icon" type="button"></button>
             </div>
           </li>
         </ul>
@@ -80,13 +80,15 @@
       <p class="footer__text">&copy; 2023 Mesto Russia</p>
     </footer>
     <div class="popup">
-      <form action="./" class="popup__container">
+      <div class="popup__container">
         <h2 class="popup__title">Редактировать профиль</h2>
-        <input class="popup__input" type="text" name="name" required placeholder="Жак-Ив Кусто">
-        <input class="popup__input" type="text" name="job" required placeholder="Исследователь океана">
-        <button class="popup__button" type="submit">Сохранить</button>
-        <img class="popup__close main-link" src="./images/popup_close.png" alt="Закрыть форму">
-      </form>
+        <form class="popup__form" action="./" name="edit">
+          <input class="popup__input" type="text" name="name" required placeholder="Жак-Ив Кусто">
+          <input class="popup__input" type="text" name="job" required placeholder="Исследователь океана">
+          <button class="popup__button" type="submit">Сохранить</button>
+        </form>
+        <button class="popup__close main-link" type="button"></button>
+      </div>
     </div>
   </div>
   <script src="./scripts/index.js"></script>
