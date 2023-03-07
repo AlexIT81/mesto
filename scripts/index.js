@@ -10,13 +10,18 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const cardsPlace = document.querySelector(".elements"),
     triggerModalEdit = document.querySelector(".profile__edit-btn"),
-    modalEdit = document.querySelector(".popup"),
-    closeModals = document.querySelector(".popup__close"),
+    triggerModalAdd = document.querySelector(".profile__add-btn"),
+    modalEdit = document.querySelector(".popup_edit"),
+    modalAdd = document.querySelector(".popup_add"),
+    closeBtnModalEdit = modalEdit.querySelector(".popup__close"),
+    closeBtnModalAdd = modalAdd.querySelector(".popup__close"),
     nameValue = document.querySelector(".profile__title"),
     jobValue = document.querySelector(".profile__sub-title"),
-    nameInput = document.querySelectorAll(".popup__input")[0],
-    jobInput = document.querySelectorAll(".popup__input")[1],
-    formElement = document.querySelector(".popup__container");
+    nameInput = modalEdit.querySelectorAll(".popup__input")[0],
+    jobInput = modalEdit.querySelectorAll(".popup__input")[1],
+    formElementEdit = modalEdit.querySelector(".popup__container");
+
+  // Окно редактирования информации путешественника
 
   triggerModalEdit.addEventListener("click", () => {
     modalEdit.classList.add("popup_opened");
@@ -24,22 +29,35 @@ window.addEventListener('DOMContentLoaded', () => {
     jobInput.value = jobValue.textContent;
   });
 
-  function closeModal() {
-    modalEdit.classList.remove("popup_opened");
+  function closeModal(modalWindow) {
+    modalWindow.classList.remove("popup_opened");
   }
 
-  closeModals.addEventListener("click", closeModal);
+  closeBtnModalEdit.addEventListener("click", () => {
+    closeModal(modalEdit);
+  });
 
   function handleFormSubmit(evt) {
     evt.preventDefault();
     nameValue.textContent = nameInput.value;
     jobValue.textContent = jobInput.value;
-    closeModal();
+    closeModal(modalEdit);
   }
 
-  formElement.addEventListener("submit", handleFormSubmit);
+  formElementEdit.addEventListener("submit", handleFormSubmit);
 
-  // Добавление карточек
+
+  // Окно добавления карточки
+
+  triggerModalAdd.addEventListener('click', () => {
+    modalAdd.classList.add("popup_opened");
+  });
+
+  closeBtnModalAdd.addEventListener("click", () => {
+    closeModal(modalAdd);
+  });
+
+  // Добавление карточек в галерею
 
   initialCards.forEach((item) => {
     AddCards(item.name, item.link);
@@ -54,10 +72,4 @@ window.addEventListener('DOMContentLoaded', () => {
     cardElement.querySelector('.element__title').textContent = nameCard;
     cardsPlace.appendChild(cardElement);
   }
-
-  AddCards('Архыз', 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg');
-
-
-
-
 });
