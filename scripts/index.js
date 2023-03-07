@@ -19,7 +19,8 @@ window.addEventListener('DOMContentLoaded', () => {
     jobValue = document.querySelector(".profile__sub-title"),
     nameInput = modalEdit.querySelectorAll(".popup__input")[0],
     jobInput = modalEdit.querySelectorAll(".popup__input")[1],
-    formElementEdit = modalEdit.querySelector(".popup__container");
+    formElementEdit = modalEdit.querySelector(".popup__container"),
+    formElementAdd = modalAdd.querySelector(".popup__container");
 
   // Окно редактирования информации путешественника
 
@@ -37,17 +38,17 @@ window.addEventListener('DOMContentLoaded', () => {
     closeModal(modalEdit);
   });
 
-  function handleFormSubmit(evt) {
+  function handleFormEditSubmit(evt) {
     evt.preventDefault();
     nameValue.textContent = nameInput.value;
     jobValue.textContent = jobInput.value;
     closeModal(modalEdit);
   }
 
-  formElementEdit.addEventListener("submit", handleFormSubmit);
+  formElementEdit.addEventListener("submit", handleFormEditSubmit);
 
 
-  // Окно добавления карточки
+  // Окно добавления карточки + добавление карточки
 
   triggerModalAdd.addEventListener('click', () => {
     modalAdd.classList.add("popup_opened");
@@ -57,19 +58,31 @@ window.addEventListener('DOMContentLoaded', () => {
     closeModal(modalAdd);
   });
 
-  // Добавление карточек в галерею
+  function handleFormAddSubmit(evt) {
+    evt.preventDefault();
+    let titleInput = modalAdd.querySelectorAll(".popup__input")[0],
+    linkInput = modalAdd.querySelectorAll(".popup__input")[1];
+    AddCards(titleInput.value, linkInput.value);
+    titleInput.value = '';
+    linkInput.value = '';
+    closeModal(modalAdd);
+  }
+
+  formElementAdd.addEventListener("submit", handleFormAddSubmit);
+
+  // Общее добавление карточек в галерею из массива
 
   initialCards.forEach((item) => {
     AddCards(item.name, item.link);
   });
 
   function AddCards(nameCard, linkCard) {
-    const cardsTemlate = document.querySelector('#element').content;
-    const cardElement = cardsTemlate.querySelector('.element').cloneNode(true);
+    const cardsTemlate = document.querySelector('#element').content,
+      cardElement = cardsTemlate.querySelector('.element').cloneNode(true);
 
     cardElement.querySelector('.element__img').src = linkCard;
     cardElement.querySelector('.element__img').alt = nameCard;
     cardElement.querySelector('.element__title').textContent = nameCard;
-    cardsPlace.appendChild(cardElement);
+    cardsPlace.prepend(cardElement);
   }
 });
