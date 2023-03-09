@@ -41,8 +41,8 @@
       <div class="popup__container">
         <h2 class="popup__title">Редактировать профиль</h2>
         <form class="popup__form" action="./" name="edit">
-          <input class="popup__input" type="text" name="name" required placeholder="Имя">
-          <input class="popup__input" type="text" name="job" required placeholder="Профессия">
+          <input class="popup__input popup__input_name" type="text" name="name" required placeholder="Имя">
+          <input class="popup__input popup__input_job" type="text" name="job" required placeholder="Профессия">
           <button class="popup__button" type="submit">Сохранить</button>
         </form>
         <button class="popup__close main-link" type="button"></button>
@@ -52,8 +52,8 @@
       <div class="popup__container">
         <h2 class="popup__title">Новое место</h2>
         <form class="popup__form" action="./" name="add">
-          <input class="popup__input" type="text" name="title" required placeholder="Название">
-          <input class="popup__input" type="text" name="link" required placeholder="Ссылка на картинку">
+          <input class="popup__input popup__input_title" type="text" name="title" required placeholder="Название">
+          <input class="popup__input popup__input_link type="text" name="link" required placeholder="Ссылка на картинку">
           <button class="popup__button" type="submit">Сохранить</button>
         </form>
         <button class="popup__close main-link" type="button"></button>
@@ -79,6 +79,7 @@
       </div>
     </li>
   </template>
+  <script src="./scripts/constants.js"></script>
   <script src="./scripts/index.js"></script>
 </body>
 </html>

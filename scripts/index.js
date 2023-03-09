@@ -1,31 +1,4 @@
 window.addEventListener("DOMContentLoaded", () => {
-  const initialCards = [
-    {
-      name: "Архыз",
-      link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
-    },
-    {
-      name: "Челябинская область",
-      link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg",
-    },
-    {
-      name: "Иваново",
-      link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg",
-    },
-    {
-      name: "Камчатка",
-      link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
-    },
-    {
-      name: "Холмогорский район",
-      link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg",
-    },
-    {
-      name: "Байкал",
-      link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
-    },
-  ];
-
   const cardsWrapper = document.querySelector(".elements"),
     triggerModalEdit = document.querySelector(".profile__edit-btn"),
     triggerModalAdd = document.querySelector(".profile__add-btn"),
@@ -35,25 +8,44 @@ window.addEventListener("DOMContentLoaded", () => {
     closeModalBtns = document.querySelectorAll(".popup__close"),
     nameValue = document.querySelector(".profile__title"),
     jobValue = document.querySelector(".profile__sub-title"),
-    nameInput = modalEdit.querySelectorAll(".popup__input")[0],
-    jobInput = modalEdit.querySelectorAll(".popup__input")[1],
+    nameInput = modalEdit.querySelector(".popup__input_name"),
+    jobInput = modalEdit.querySelector(".popup__input_job"),
     formElementEdit = modalEdit.querySelector(".popup__container"),
     formElementAdd = modalAdd.querySelector(".popup__container");
+    modalImageFigure = modalImage.querySelector(".popup__big-image"),
+    modalImageFigcaption = modalImage.querySelector(".popup__figcaption"),
+    cardTemlate = document.querySelector("#element").content,
+    titleInput = modalAdd.querySelector(".popup__input_title"),
+    linkInput = modalAdd.querySelector(".popup__input_link");
 
   /** Функция открытия и закрытия модального окна */
   function toggleModal(modalWindow) {
     modalWindow.classList.toggle("popup_opened");
   }
 
-  /** Функция добавления карточки на страницу */
-  function addCard(cardName, cardLink) {
-    const cardsTemlate = document.querySelector("#element").content,
-      cardElement = cardsTemlate.querySelector(".element").cloneNode(true);
+  /** Функция создания карточки */
+  function createCard(cardName, cardLink) {
+    const cardElement = cardTemlate.querySelector(".element").cloneNode(true),
+    cardElementImg = cardElement.querySelector(".element__img"),
+    cardElementTitle = cardElement.querySelector(".element__title"),
+    cardElementTrash = cardElement.querySelector(".element__trash"),
+    cardElementIcon = cardElement.querySelector(".element__icon");
+    cardElementImg.src = cardLink;
+    cardElementImg.alt = cardName;
+    cardElementTitle.textContent = cardName;
+    cardElementTrash.addEventListener('click', (e) => e.target.closest(".element").remove());
+    cardElementImg.addEventListener('click', (e) => {
+      createModalImage(e);
+      toggleModal(modalImage);
+    });
+    cardElementIcon.addEventListener('click', (e) => e.target.classList.toggle("element__icon_active"));
 
-    cardElement.querySelector(".element__img").src = cardLink;
-    cardElement.querySelector(".element__img").alt = cardName;
-    cardElement.querySelector(".element__title").textContent = cardName;
-    cardsWrapper.prepend(cardElement);
+    return cardElement;
+  }
+
+  /** Функция добавления карточки в DOM */
+  function addCard(card) {
+    cardsWrapper.prepend(card);
   }
 
   /** Функция генерации модального окна с картинкой из карточки */
@@ -61,9 +53,9 @@ window.addEventListener("DOMContentLoaded", () => {
     const imgUrl = e.target.src,
         imgDescription = e.target.alt;
 
-    modalImage.querySelector(".popup__big-image").src = imgUrl;
-    modalImage.querySelector(".popup__big-image").alt = imgDescription;
-    modalImage.querySelector(".popup__figcaption").textContent = imgDescription;
+    modalImageFigure.src = imgUrl;
+    modalImageFigure.alt = imgDescription;
+    modalImageFigcaption.textContent = imgDescription;
   }
 
   /** Функция обработки данных путешественника */
@@ -77,21 +69,18 @@ window.addEventListener("DOMContentLoaded", () => {
   /** Функция добавления карточки */
   function handleFormAddSubmit(e) {
     e.preventDefault();
-    const titleInput = modalAdd.querySelectorAll(".popup__input")[0],
-      linkInput = modalAdd.querySelectorAll(".popup__input")[1];
-    addCard(titleInput.value, linkInput.value);
-    titleInput.value = "";
-    linkInput.value = "";
+    addCard(createCard(titleInput.value, linkInput.value));
+    e.target.reset();
     toggleModal(modalAdd);
   }
 
   /** Начальное добавление карточек в галерею из массива */
-  initialCards.forEach(item => addCard(item.name, item.link));
+  initialCards.forEach((item) => addCard(createCard(item.name, item.link)));
 
   /** Закрытие модалок кнопкой */
   closeModalBtns.forEach((btn) => {
     btn.addEventListener("click", (e) => {
-      e.target.closest(".popup").classList.remove("popup_opened");
+      toggleModal(e.target.closest(".popup"));
     });
   });
 
@@ -107,23 +96,4 @@ window.addEventListener("DOMContentLoaded", () => {
   /** Добавление карточки */
   triggerModalAdd.addEventListener("click", () => toggleModal(modalAdd));
   formElementAdd.addEventListener("submit", handleFormAddSubmit);
-
-  /** Делегирование событий, обработчики для карточек */
-  cardsWrapper.addEventListener("click", (e) => {
-    /** Удаление карточки */
-    if (e.target.classList.contains("element__trash")) {
-      e.target.closest(".element").remove();
-    }
-
-    /** Модальное окно с картинкой */
-    if (e.target.classList.contains("element__img")) {
-      createModalImage(e);
-      toggleModal(modalImage);
-    }
-
-    /** Лайки */
-    if (e.target.classList.contains("element__icon")) {
-      e.target.classList.toggle("element__icon_active");
-    }
-  });
 });
