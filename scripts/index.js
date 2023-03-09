@@ -40,21 +40,8 @@ window.addEventListener("DOMContentLoaded", () => {
     nameInput = modalEdit.querySelectorAll(".popup__input")[0],
     jobInput = modalEdit.querySelectorAll(".popup__input")[1],
     formElementEdit = modalEdit.querySelector(".popup__container"),
-    formElementAdd = modalAdd.querySelector(".popup__container");
-
-  // Общее добавление карточек в галерею из массива
-
-  initialCards.forEach((item) => addCard(item.name, item.link));
-
-  function addCard(nameCard, linkCard) {
-    const cardsTemlate = document.querySelector("#element").content,
-      cardElement = cardsTemlate.querySelector(".element").cloneNode(true);
-
-    cardElement.querySelector(".element__img").src = linkCard;
-    cardElement.querySelector(".element__img").alt = nameCard;
-    cardElement.querySelector(".element__title").textContent = nameCard;
-    cardsPlace.prepend(cardElement);
-  }
+    formElementAdd = modalAdd.querySelector(".popup__container"),
+    cardSection = document.querySelector('.elements');
 
   // Общие функции
 
@@ -66,6 +53,20 @@ window.addEventListener("DOMContentLoaded", () => {
     modalWindow.classList.remove("popup_opened");
   }
 
+  function addCard(cardName, cardLink) {
+    const cardsTemlate = document.querySelector("#element").content,
+      cardElement = cardsTemlate.querySelector(".element").cloneNode(true);
+
+    cardElement.querySelector(".element__img").src = cardLink;
+    cardElement.querySelector(".element__img").alt = cardName;
+    cardElement.querySelector(".element__title").textContent = cardName;
+    cardsPlace.prepend(cardElement);
+  }
+
+  // Начальное добавление карточек в галерею из массива
+
+  initialCards.forEach((item) => addCard(item.name, item.link));
+
   // Окно редактирования информации путешественника
 
   triggerModalEdit.addEventListener("click", () => {
@@ -73,8 +74,6 @@ window.addEventListener("DOMContentLoaded", () => {
     nameInput.value = nameValue.textContent;
     jobInput.value = jobValue.textContent;
   });
-
-  closeBtnModalEdit.addEventListener("click", () => closeModal(modalEdit));
 
   function handleFormEditSubmit(evt) {
     evt.preventDefault();
@@ -84,11 +83,11 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   formElementEdit.addEventListener("submit", handleFormEditSubmit);
+  closeBtnModalEdit.addEventListener("click", () => closeModal(modalEdit));
 
   // Окно добавления карточки + добавление карточки
 
   triggerModalAdd.addEventListener("click", () => openModal(modalAdd));
-
   closeBtnModalAdd.addEventListener("click", () => closeModal(modalAdd));
 
   function handleFormAddSubmit(evt) {
@@ -102,31 +101,21 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   formElementAdd.addEventListener("submit", handleFormAddSubmit);
+  closeBtnModalImage.addEventListener('click', () => closeModal(modalImage));
 
-  // Лайки
+  // Делегирование событий
 
-  const elementIcons = document.querySelectorAll(".element__icon");
+  cardSection.addEventListener('click', (e) => {
 
-  elementIcons.forEach((element) => {
-    element.addEventListener("click", () => {
-      element.classList.toggle("element__icon_active");
-    });
-  });
+    //Удаление карточки
 
-  //Удаление карточки
+    if (e.target.classList.contains('element__trash')) {
+      e.target.closest(".element").remove();
+    }
 
-  const trashBtns = document.querySelectorAll(".element__trash");
+    // Открытие модального окна с картинкой
 
-  trashBtns.forEach((btn) => {
-    btn.addEventListener("click", () => btn.closest(".element").remove());
-  });
-
-  // Открытие модального окна с картинкой
-
-  const triggerImages = document.querySelectorAll('.element__img');
-
-  triggerImages.forEach((image) => {
-    image.addEventListener('click', (e) => {
+    if (e.target.classList.contains('element__img')) {
       const imgUrl = e.target.src,
       imgDescription = e.target.alt;
 
@@ -134,23 +123,12 @@ window.addEventListener("DOMContentLoaded", () => {
       modalImage.querySelector(".popup__big-image").alt = imgDescription;
       modalImage.querySelector(".popup__figcaption").textContent = imgDescription;
       openModal(modalImage);
-    });
+    }
+
+    // Лайки
+
+    if (e.target.classList.contains('element__icon')) {
+      e.target.classList.toggle("element__icon_active");
+    }
   });
-
-  // triggerImages.forEach((image) => {
-  //   image.addEventListener('click', (e) => {
-  //     const imgUrl = e.target.src,
-  //     imgDescription = e.target.alt,
-  //     imageTemplate = document.querySelector("#image").content,
-  //     imageModal = imageTemplate.querySelector(".popup_image").cloneNode(true);
-
-  //     imageModal.querySelector(".popup__big-image").src = imgUrl;
-  //     imageModal.querySelector(".popup__big-image").alt = imgDescription;
-  //     imageModal.querySelector(".popup__figcaption").textContent = imgDescription;
-  //     openModal(modalImage);
-  //   });
-  // });
-
-  closeBtnModalImage.addEventListener('click', () => closeModal(modalImage));
-
 });
