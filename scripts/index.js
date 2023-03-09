@@ -86,9 +86,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
   formElementAdd.addEventListener("submit", handleFormAddSubmit);
 
-
-
   // Лайки
+
   const elementsIcon = document.querySelectorAll(".element__icon");
 
   Array.from(elementsIcon).forEach((element) => {
@@ -96,4 +95,17 @@ window.addEventListener('DOMContentLoaded', () => {
       element.classList.toggle('element__icon_active');
     });
   });
+
+  //Удаление карточки
+
+  const trashBtns = document.querySelectorAll('.element__trash ');
+
+  trashBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      // let removeCard = btn.closest('.element');
+      // removeCard.remove();
+      btn.closest('.element').remove();
+    });
+  });
+
 });
