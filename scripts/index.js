@@ -44,11 +44,9 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // Общее добавление карточек в галерею из массива
 
-  initialCards.forEach((item) => {
-    AddCards(item.name, item.link);
-  });
+  initialCards.forEach((item) => addCard(item.name, item.link));
 
-  function AddCards(nameCard, linkCard) {
+  function addCard(nameCard, linkCard) {
     const cardsTemlate = document.querySelector("#element").content,
       cardElement = cardsTemlate.querySelector(".element").cloneNode(true);
 
@@ -76,9 +74,7 @@ window.addEventListener("DOMContentLoaded", () => {
     jobInput.value = jobValue.textContent;
   });
 
-  closeBtnModalEdit.addEventListener("click", () => {
-    closeModal(modalEdit);
-  });
+  closeBtnModalEdit.addEventListener("click", () => closeModal(modalEdit));
 
   function handleFormEditSubmit(evt) {
     evt.preventDefault();
@@ -91,19 +87,15 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // Окно добавления карточки + добавление карточки
 
-  triggerModalAdd.addEventListener("click", () => {
-    openModal(modalAdd);
-  });
+  triggerModalAdd.addEventListener("click", () => openModal(modalAdd));
 
-  closeBtnModalAdd.addEventListener("click", () => {
-    closeModal(modalAdd);
-  });
+  closeBtnModalAdd.addEventListener("click", () => closeModal(modalAdd));
 
   function handleFormAddSubmit(evt) {
     evt.preventDefault();
-    let titleInput = modalAdd.querySelectorAll(".popup__input")[0],
+    const titleInput = modalAdd.querySelectorAll(".popup__input")[0],
       linkInput = modalAdd.querySelectorAll(".popup__input")[1];
-    AddCards(titleInput.value, linkInput.value);
+    addCard(titleInput.value, linkInput.value);
     titleInput.value = "";
     linkInput.value = "";
     closeModal(modalAdd);
@@ -113,9 +105,9 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // Лайки
 
-  const elementsIcon = document.querySelectorAll(".element__icon");
+  const elementIcons = document.querySelectorAll(".element__icon");
 
-  elementsIcon.forEach((element) => {
+  elementIcons.forEach((element) => {
     element.addEventListener("click", () => {
       element.classList.toggle("element__icon_active");
     });
@@ -126,9 +118,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const trashBtns = document.querySelectorAll(".element__trash");
 
   trashBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      btn.closest(".element").remove();
-    });
+    btn.addEventListener("click", () => btn.closest(".element").remove());
   });
 
   // Открытие модального окна с картинкой
@@ -137,18 +127,29 @@ window.addEventListener("DOMContentLoaded", () => {
 
   triggerImages.forEach((image) => {
     image.addEventListener('click', (e) => {
-      let imgUrl = e.target.src,
+      const imgUrl = e.target.src,
       imgDescription = e.target.alt;
 
-    const imageTemplate = document.querySelector("#image").content,
-    imageModal = imageTemplate.querySelector(".popup_image").cloneNode(true);
-
-    imageModal.querySelector(".popup__big-image").src = imgUrl;
-    imageModal.querySelector(".popup__big-image").alt = imgDescription;
-    imageModal.querySelector(".popup__figcaption").textContent = imgDescription;
-    openModal(modalImage);
+      modalImage.querySelector(".popup__big-image").src = imgUrl;
+      modalImage.querySelector(".popup__big-image").alt = imgDescription;
+      modalImage.querySelector(".popup__figcaption").textContent = imgDescription;
+      openModal(modalImage);
     });
   });
+
+  // triggerImages.forEach((image) => {
+  //   image.addEventListener('click', (e) => {
+  //     const imgUrl = e.target.src,
+  //     imgDescription = e.target.alt,
+  //     imageTemplate = document.querySelector("#image").content,
+  //     imageModal = imageTemplate.querySelector(".popup_image").cloneNode(true);
+
+  //     imageModal.querySelector(".popup__big-image").src = imgUrl;
+  //     imageModal.querySelector(".popup__big-image").alt = imgDescription;
+  //     imageModal.querySelector(".popup__figcaption").textContent = imgDescription;
+  //     openModal(modalImage);
+  //   });
+  // });
 
   closeBtnModalImage.addEventListener('click', () => closeModal(modalImage));
 
