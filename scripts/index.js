@@ -40,12 +40,12 @@ window.addEventListener("DOMContentLoaded", () => {
     formElementEdit = modalEdit.querySelector(".popup__container"),
     formElementAdd = modalAdd.querySelector(".popup__container");
 
-  // Общие функции
-
+  /** Функция открытия и закрытия модального окна */
   function toggleModal(modalWindow) {
     modalWindow.classList.toggle("popup_opened");
   }
 
+  /** Функция добавления карточки на страницу */
   function addCard(cardName, cardLink) {
     const cardsTemlate = document.querySelector("#element").content,
       cardElement = cardsTemlate.querySelector(".element").cloneNode(true);
@@ -56,6 +56,7 @@ window.addEventListener("DOMContentLoaded", () => {
     cardsWrapper.prepend(cardElement);
   }
 
+  /** Функция генерации модального окна с картинкой из карточки */
   function createModalImage(e) {
     const imgUrl = e.target.src,
         imgDescription = e.target.alt;
@@ -65,6 +66,7 @@ window.addEventListener("DOMContentLoaded", () => {
     modalImage.querySelector(".popup__figcaption").textContent = imgDescription;
   }
 
+  /** Функция обработки данных путешественника */
   function handleFormEditSubmit(e) {
     e.preventDefault();
     nameValue.textContent = nameInput.value;
@@ -72,6 +74,7 @@ window.addEventListener("DOMContentLoaded", () => {
     toggleModal(modalEdit);
   }
 
+  /** Функция добавления карточки */
   function handleFormAddSubmit(e) {
     e.preventDefault();
     const titleInput = modalAdd.querySelectorAll(".popup__input")[0],
@@ -82,21 +85,17 @@ window.addEventListener("DOMContentLoaded", () => {
     toggleModal(modalAdd);
   }
 
-  // Начальное добавление карточек в галерею из массива
-
+  /** Начальное добавление карточек в галерею из массива */
   initialCards.forEach(item => addCard(item.name, item.link));
 
-  // Обработчики событий
-  // Закрытие модалок кнопкой
-
+  /** Закрытие модалок кнопкой */
   closeModalBtns.forEach((btn) => {
     btn.addEventListener("click", (e) => {
       e.target.closest(".popup").classList.remove("popup_opened");
     });
   });
 
-  // Редактирование информации о путешественнике
-
+  /** Редактирование информации о путешественнике */
   triggerModalEdit.addEventListener("click", () => {
     toggleModal(modalEdit);
     nameInput.value = nameValue.textContent;
@@ -105,29 +104,24 @@ window.addEventListener("DOMContentLoaded", () => {
 
   formElementEdit.addEventListener("submit", handleFormEditSubmit);
 
-  // Добавление карточки
-
+  /** Добавление карточки */
   triggerModalAdd.addEventListener("click", () => toggleModal(modalAdd));
   formElementAdd.addEventListener("submit", handleFormAddSubmit);
 
-  // Делегирование событий
-
+  /** Делегирование событий, обработчики для карточек */
   cardsWrapper.addEventListener("click", (e) => {
-    //Удаление карточки
-
+    /** Удаление карточки */
     if (e.target.classList.contains("element__trash")) {
       e.target.closest(".element").remove();
     }
 
-    // Модальное окно с картинкой
-
+    /** Модальное окно с картинкой */
     if (e.target.classList.contains("element__img")) {
       createModalImage(e);
       toggleModal(modalImage);
     }
 
-    // Лайки
-
+    /** Лайки */
     if (e.target.classList.contains("element__icon")) {
       e.target.classList.toggle("element__icon_active");
     }
