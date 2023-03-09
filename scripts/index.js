@@ -26,31 +26,24 @@ window.addEventListener("DOMContentLoaded", () => {
     },
   ];
 
-  const cardsPlace = document.querySelector(".elements"),
+  const cardsWrapper = document.querySelector(".elements"),
     triggerModalEdit = document.querySelector(".profile__edit-btn"),
     triggerModalAdd = document.querySelector(".profile__add-btn"),
     modalEdit = document.querySelector(".popup_edit"),
     modalAdd = document.querySelector(".popup_add"),
     modalImage = document.querySelector(".popup_image"),
-    closeBtnModalEdit = modalEdit.querySelector(".popup__close"),
-    closeBtnModalAdd = modalAdd.querySelector(".popup__close"),
-    closeBtnModalImage = modalImage.querySelector(".popup__close"),
+    closeModalBtns = document.querySelectorAll(".popup__close"),
     nameValue = document.querySelector(".profile__title"),
     jobValue = document.querySelector(".profile__sub-title"),
     nameInput = modalEdit.querySelectorAll(".popup__input")[0],
     jobInput = modalEdit.querySelectorAll(".popup__input")[1],
     formElementEdit = modalEdit.querySelector(".popup__container"),
-    formElementAdd = modalAdd.querySelector(".popup__container"),
-    cardSection = document.querySelector('.elements');
+    formElementAdd = modalAdd.querySelector(".popup__container");
 
   // Общие функции
 
-  function openModal(modalWindow) {
-    modalWindow.classList.add("popup_opened");
-  }
-
-  function closeModal(modalWindow) {
-    modalWindow.classList.remove("popup_opened");
+  function toggleModal(modalWindow) {
+    modalWindow.classList.toggle("popup_opened");
   }
 
   function addCard(cardName, cardLink) {
@@ -60,74 +53,82 @@ window.addEventListener("DOMContentLoaded", () => {
     cardElement.querySelector(".element__img").src = cardLink;
     cardElement.querySelector(".element__img").alt = cardName;
     cardElement.querySelector(".element__title").textContent = cardName;
-    cardsPlace.prepend(cardElement);
+    cardsWrapper.prepend(cardElement);
   }
 
-  // Начальное добавление карточек в галерею из массива
+  function createModalImage(e) {
+    const imgUrl = e.target.src,
+        imgDescription = e.target.alt;
 
-  initialCards.forEach((item) => addCard(item.name, item.link));
+    modalImage.querySelector(".popup__big-image").src = imgUrl;
+    modalImage.querySelector(".popup__big-image").alt = imgDescription;
+    modalImage.querySelector(".popup__figcaption").textContent = imgDescription;
+  }
 
-  // Окно редактирования информации путешественника
-
-  triggerModalEdit.addEventListener("click", () => {
-    openModal(modalEdit);
-    nameInput.value = nameValue.textContent;
-    jobInput.value = jobValue.textContent;
-  });
-
-  function handleFormEditSubmit(evt) {
-    evt.preventDefault();
+  function handleFormEditSubmit(e) {
+    e.preventDefault();
     nameValue.textContent = nameInput.value;
     jobValue.textContent = jobInput.value;
-    closeModal(modalEdit);
+    toggleModal(modalEdit);
   }
 
-  formElementEdit.addEventListener("submit", handleFormEditSubmit);
-  closeBtnModalEdit.addEventListener("click", () => closeModal(modalEdit));
-
-  // Окно добавления карточки + добавление карточки
-
-  triggerModalAdd.addEventListener("click", () => openModal(modalAdd));
-  closeBtnModalAdd.addEventListener("click", () => closeModal(modalAdd));
-
-  function handleFormAddSubmit(evt) {
-    evt.preventDefault();
+  function handleFormAddSubmit(e) {
+    e.preventDefault();
     const titleInput = modalAdd.querySelectorAll(".popup__input")[0],
       linkInput = modalAdd.querySelectorAll(".popup__input")[1];
     addCard(titleInput.value, linkInput.value);
     titleInput.value = "";
     linkInput.value = "";
-    closeModal(modalAdd);
+    toggleModal(modalAdd);
   }
 
+  // Начальное добавление карточек в галерею из массива
+
+  initialCards.forEach(item => addCard(item.name, item.link));
+
+  // Обработчики событий
+  // Закрытие модалок кнопкой
+
+  closeModalBtns.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.target.closest(".popup").classList.remove("popup_opened");
+    });
+  });
+
+  // Редактирование информации о путешественнике
+
+  triggerModalEdit.addEventListener("click", () => {
+    toggleModal(modalEdit);
+    nameInput.value = nameValue.textContent;
+    jobInput.value = jobValue.textContent;
+  });
+
+  formElementEdit.addEventListener("submit", handleFormEditSubmit);
+
+  // Добавление карточки
+
+  triggerModalAdd.addEventListener("click", () => toggleModal(modalAdd));
   formElementAdd.addEventListener("submit", handleFormAddSubmit);
-  closeBtnModalImage.addEventListener('click', () => closeModal(modalImage));
 
   // Делегирование событий
 
-  cardSection.addEventListener('click', (e) => {
-
+  cardsWrapper.addEventListener("click", (e) => {
     //Удаление карточки
 
-    if (e.target.classList.contains('element__trash')) {
+    if (e.target.classList.contains("element__trash")) {
       e.target.closest(".element").remove();
     }
 
-    // Открытие модального окна с картинкой
+    // Модальное окно с картинкой
 
-    if (e.target.classList.contains('element__img')) {
-      const imgUrl = e.target.src,
-      imgDescription = e.target.alt;
-
-      modalImage.querySelector(".popup__big-image").src = imgUrl;
-      modalImage.querySelector(".popup__big-image").alt = imgDescription;
-      modalImage.querySelector(".popup__figcaption").textContent = imgDescription;
-      openModal(modalImage);
+    if (e.target.classList.contains("element__img")) {
+      createModalImage(e);
+      toggleModal(modalImage);
     }
 
     // Лайки
 
-    if (e.target.classList.contains('element__icon')) {
+    if (e.target.classList.contains("element__icon")) {
       e.target.classList.toggle("element__icon_active");
     }
   });
