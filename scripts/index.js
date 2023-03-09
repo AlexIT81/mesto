@@ -58,17 +58,23 @@ window.addEventListener("DOMContentLoaded", () => {
     cardsPlace.prepend(cardElement);
   }
 
-  // Окно редактирования информации путешественника
+  // Общие функции
 
-  triggerModalEdit.addEventListener("click", () => {
-    modalEdit.classList.add("popup_opened");
-    nameInput.value = nameValue.textContent;
-    jobInput.value = jobValue.textContent;
-  });
+  function openModal(modalWindow) {
+    modalWindow.classList.add("popup_opened");
+  }
 
   function closeModal(modalWindow) {
     modalWindow.classList.remove("popup_opened");
   }
+
+  // Окно редактирования информации путешественника
+
+  triggerModalEdit.addEventListener("click", () => {
+    openModal(modalEdit);
+    nameInput.value = nameValue.textContent;
+    jobInput.value = jobValue.textContent;
+  });
 
   closeBtnModalEdit.addEventListener("click", () => {
     closeModal(modalEdit);
@@ -86,7 +92,7 @@ window.addEventListener("DOMContentLoaded", () => {
   // Окно добавления карточки + добавление карточки
 
   triggerModalAdd.addEventListener("click", () => {
-    modalAdd.classList.add("popup_opened");
+    openModal(modalAdd);
   });
 
   closeBtnModalAdd.addEventListener("click", () => {
@@ -109,7 +115,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   const elementsIcon = document.querySelectorAll(".element__icon");
 
-  Array.from(elementsIcon).forEach((element) => {
+  elementsIcon.forEach((element) => {
     element.addEventListener("click", () => {
       element.classList.toggle("element__icon_active");
     });
@@ -127,6 +133,23 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // Открытие модального окна с картинкой
 
+  const triggerImages = document.querySelectorAll('.element__img');
 
+  triggerImages.forEach((image) => {
+    image.addEventListener('click', (e) => {
+      let imgUrl = e.target.src,
+      imgDescription = e.target.alt;
+
+    const imageTemplate = document.querySelector("#image").content,
+    imageModal = imageTemplate.querySelector(".popup_image").cloneNode(true);
+
+    imageModal.querySelector(".popup__big-image").src = imgUrl;
+    imageModal.querySelector(".popup__big-image").alt = imgDescription;
+    imageModal.querySelector(".popup__figcaption").textContent = imgDescription;
+    openModal(modalImage);
+    });
+  });
+
+  closeBtnModalImage.addEventListener('click', () => closeModal(modalImage));
 
 });
