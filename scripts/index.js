@@ -22,6 +22,22 @@ window.addEventListener('DOMContentLoaded', () => {
     formElementEdit = modalEdit.querySelector(".popup__container"),
     formElementAdd = modalAdd.querySelector(".popup__container");
 
+  // Общее добавление карточек в галерею из массива
+
+  initialCards.forEach((item) => {
+    AddCards(item.name, item.link);
+  });
+
+  function AddCards(nameCard, linkCard) {
+    const cardsTemlate = document.querySelector('#element').content,
+      cardElement = cardsTemlate.querySelector('.element').cloneNode(true);
+
+    cardElement.querySelector('.element__img').src = linkCard;
+    cardElement.querySelector('.element__img').alt = nameCard;
+    cardElement.querySelector('.element__title').textContent = nameCard;
+    cardsPlace.prepend(cardElement);
+  }
+
   // Окно редактирования информации путешественника
 
   triggerModalEdit.addEventListener("click", () => {
@@ -70,19 +86,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
   formElementAdd.addEventListener("submit", handleFormAddSubmit);
 
-  // Общее добавление карточек в галерею из массива
 
-  initialCards.forEach((item) => {
-    AddCards(item.name, item.link);
+
+  // Лайки
+  const elementsIcon = document.querySelectorAll(".element__icon");
+
+  Array.from(elementsIcon).forEach((element) => {
+    element.addEventListener("click", () => {
+      element.classList.toggle('element__icon_active');
+    });
   });
-
-  function AddCards(nameCard, linkCard) {
-    const cardsTemlate = document.querySelector('#element').content,
-      cardElement = cardsTemlate.querySelector('.element').cloneNode(true);
-
-    cardElement.querySelector('.element__img').src = linkCard;
-    cardElement.querySelector('.element__img').alt = nameCard;
-    cardElement.querySelector('.element__title').textContent = nameCard;
-    cardsPlace.prepend(cardElement);
-  }
 });
