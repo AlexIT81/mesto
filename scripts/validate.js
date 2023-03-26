@@ -35,12 +35,12 @@ function enableValidation(obj) {
 
   /** Тоглим кнопку отправки формы */
   const toggleButtonState = (inputList, buttonElement) => {
-    if (!doAllInputsValid(inputList)) {
-      buttonElement.classList.add(obj.inactiveButtonClass);
-      buttonElement.setAttribute("disabled", true);
-    } else {
+    if (doAllInputsValid(inputList)) {
       buttonElement.classList.remove(obj.inactiveButtonClass);
       buttonElement.removeAttribute("disabled");
+    } else {
+      buttonElement.classList.add(obj.inactiveButtonClass);
+      buttonElement.setAttribute("disabled", true);
     }
   };
 
