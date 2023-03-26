@@ -16,12 +16,53 @@ window.addEventListener("DOMContentLoaded", () => {
     modalImageFigcaption = modalImage.querySelector(".popup__figcaption"),
     cardTemlate = document.querySelector("#element").content,
     titleInput = modalAdd.querySelector(".popup__input_title"),
-    linkInput = modalAdd.querySelector(".popup__input_link");
+    linkInput = modalAdd.querySelector(".popup__input_link"),
+    modalWindows = document.querySelectorAll('.popup');
 
   /** Функция открытия и закрытия модального окна */
   function toggleModal(modalWindow) {
     modalWindow.classList.toggle("popup_opened");
   }
+
+  /** Функция закрытия модального окна */
+  function closeModal(modal) {
+    modal.classList.remove("popup_opened");
+  }
+
+  /** Закрытие модалок кнопкой */
+  function closeModalByClickOnBtn() {
+    closeModalBtns.forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        toggleModal(e.target.closest(".popup"));
+      });
+    });
+  }
+  closeModalByClickOnBtn();
+
+  /** Закрытие модалки кликом на оверлей */
+  function closeModalByClickOnOverlay() {
+    modalWindows.forEach((modal) => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          closeModal(modal);
+        }
+      })
+    })
+  }
+  closeModalByClickOnOverlay();
+
+  /** Закрытие модалки нажатием клавиши Esc */
+  function closeModalByKeyEsc() {
+    modalWindows.forEach((modal) => {
+      document.addEventListener('keydown', (e) => {
+        console.log(e.key);
+        if (e.key === 'Escape') {
+          closeModal(modal);
+        }
+      })
+    })
+  }
+  closeModalByKeyEsc();
 
   /** Функция создания карточки */
   function createCard(cardName, cardLink) {
@@ -77,13 +118,6 @@ window.addEventListener("DOMContentLoaded", () => {
   /** Начальное добавление карточек в галерею из массива */
   initialCards.forEach((item) => addCard(createCard(item.name, item.link)));
 
-  /** Закрытие модалок кнопкой */
-  closeModalBtns.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      toggleModal(e.target.closest(".popup"));
-    });
-  });
-
   /** Редактирование информации о путешественнике */
   triggerModalEdit.addEventListener("click", () => {
     toggleModal(modalEdit);
@@ -96,4 +130,7 @@ window.addEventListener("DOMContentLoaded", () => {
   /** Добавление карточки */
   triggerModalAdd.addEventListener("click", () => toggleModal(modalAdd));
   formElementAdd.addEventListener("submit", handleFormAddSubmit);
+
+
+
 });
