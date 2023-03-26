@@ -5,13 +5,12 @@ window.addEventListener("DOMContentLoaded", () => {
     modalEdit = document.querySelector(".popup_edit"),
     modalAdd = document.querySelector(".popup_add"),
     modalImage = document.querySelector(".popup_image"),
-    closeModalBtns = document.querySelectorAll(".popup__close"),
     nameValue = document.querySelector(".profile__title"),
     jobValue = document.querySelector(".profile__sub-title"),
     nameInput = modalEdit.querySelector(".popup__input_name"),
     jobInput = modalEdit.querySelector(".popup__input_job"),
-    formElementEdit = modalEdit.querySelector(".popup__container"),
-    formElementAdd = modalAdd.querySelector(".popup__container"),
+    formElementEdit = document.forms["edit"],
+    formElementAdd = document.forms["add"],
     modalImageFigure = modalImage.querySelector(".popup__big-image"),
     modalImageFigcaption = modalImage.querySelector(".popup__figcaption"),
     cardTemlate = document.querySelector("#element").content,
@@ -39,25 +38,17 @@ window.addEventListener("DOMContentLoaded", () => {
     modal.classList.remove("popup_opened");
   }
 
-  /** Закрытие модалок кнопкой */
-  function closeModalByClickOnBtn() {
-    closeModalBtns.forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        closeModal(e.target.closest(".popup"));
-      });
+  /** Закрытие модального окна кликом на оверлей и на крестик */
+  modalWindows.forEach((modal) => {
+    modal.addEventListener("mousedown", (e) => {
+      if (e.target.classList.contains("popup_opened")) {
+        closeModal(modal);
+      }
+      if (e.target.classList.contains("popup__close")) {
+        closeModal(modal);
+      }
     });
-  }
-  closeModalByClickOnBtn();
-
-  /** Закрытие модалки кликом на оверлей */
-  function closeModalByClickOnOverlay() {
-    modalWindows.forEach((modal) => {
-      modal.addEventListener("click", (e) => {
-        if (e.target === modal) closeModal(modal);
-      });
-    });
-  }
-  closeModalByClickOnOverlay();
+  });
 
   /** Функция создания карточки */
   function createCard(cardName, cardLink) {
@@ -102,7 +93,7 @@ window.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     nameValue.textContent = nameInput.value;
     jobValue.textContent = jobInput.value;
-    openModal(modalEdit);
+    closeModal(modalEdit);
   }
 
   /** Функция добавления карточки */
@@ -110,6 +101,9 @@ window.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     addCard(createCard(titleInput.value, linkInput.value));
     e.target.reset();
+    const submitBtn = e.target.querySelector(".popup__button");
+    submitBtn.classList.add("popup__button_disabled");
+    submitBtn.setAttribute("disabled", true);
     closeModal(modalAdd);
   }
 
