@@ -6,7 +6,6 @@ class FormValidator {
     this._inputErrorClass = data.inputErrorClass;
     this._errorClass = data.errorClass;
     this._formSelector = formSelector;
-    // this._inputsList = Array.from(this._formSelector.querySelectorAll(this._inputSelector));
     this._inputsList = [...this._formSelector.querySelectorAll(this._inputSelector)];
   }
 
