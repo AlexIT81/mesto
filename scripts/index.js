@@ -38,11 +38,6 @@ function closeModalByPressEsc(e) {
 function closeModal(modal) {
   document.removeEventListener("keydown", closeModalByPressEsc);
   modal.classList.remove("popup_opened");
-  if (modal.classList.contains('popup_image')) {
-    modalImageFigure.src = '';
-    modalImageFigure.alt = '';
-    modalImageFigcaption.textContent = '';
-  }
 }
 
 /** Закрытие модального окна кликом на оверлей и на крестик */
@@ -53,10 +48,7 @@ modalWindows.forEach((modal) => {
 });
 
 /** Функция генерации модального окна с картинкой из карточки */
-function createModalImage(e) {
-  const imgUrl = e.target.src,
-    imgDescription = e.target.alt;
-
+function createModalImage(imgUrl, imgDescription) {
   modalImageFigure.src = imgUrl;
   modalImageFigure.alt = imgDescription;
   modalImageFigcaption.textContent = imgDescription;
@@ -70,6 +62,11 @@ function handleFormEditSubmit(e) {
   closeModal(modalEdit);
 }
 
+/** Функция создания карточки методом класса Card*/
+function createCard(cardData, template) {
+  return new Card(cardData, template).createCard();
+}
+
 /** Функция добавления карточки из модального окна */
 function handleFormAddSubmit(e) {
   e.preventDefault();
@@ -77,11 +74,8 @@ function handleFormAddSubmit(e) {
     name: titleInput.value,
     link: linkInput.value
   }
-  addCard(new Card(cardData, '#element').createCard());
+  addCard(createCard(cardData, '#element'));
   e.target.reset();
-  const submitBtn = e.target.querySelector(".popup__button");
-  submitBtn.classList.add("popup__button_disabled");
-  submitBtn.setAttribute("disabled", true);
   closeModal(modalAdd);
 }
 
@@ -92,7 +86,7 @@ function addCard(card) {
 
 /** Начальное добавление карточек в галерею из массива */
 initialCards.forEach((item) => {
-  addCard(new Card(item, '#element').createCard());
+  addCard(createCard(item, '#element'));
 });
 
 /** Редактирование информации о путешественнике */

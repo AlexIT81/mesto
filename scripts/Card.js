@@ -22,14 +22,10 @@ class Card {
     const cardElementTrash = this._element.querySelector(".element__trash"),
       cardElementIcon = this._element.querySelector(".element__icon"),
       cardElementImg = this._element.querySelector(".element__img");
-    cardElementTrash.addEventListener("click", (e) => {
-      e.target.closest(".element").remove();
-    });
-    cardElementIcon.addEventListener("click", (e) =>
-      e.target.classList.toggle("element__icon_active")
-    );
-    cardElementImg.addEventListener("click", (e) => {
-      createModalImage(e);
+    cardElementTrash.addEventListener("click", () => this._element.remove());
+    cardElementIcon.addEventListener("click", () => cardElementIcon.classList.toggle("element__icon_active"));
+    cardElementImg.addEventListener("click", () => {
+      createModalImage(cardElementImg.src, cardElementImg.alt);
       openModal(modalImage);
     });
   }
