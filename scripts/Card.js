@@ -1,4 +1,4 @@
-import { createModalImage, openModal } from "./index.js";
+import { createModalImage, openModal, modalImage } from "./index.js";
 
 class Card {
   constructor(data,templateSelector) {
@@ -27,7 +27,7 @@ class Card {
     );
     cardElementImg.addEventListener("click", (e) => {
       createModalImage(e);
-      openModal(document.querySelector(".popup_image"));
+      openModal(modalImage);
     });
   }
 
