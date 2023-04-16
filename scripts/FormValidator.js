@@ -26,6 +26,13 @@ class FormValidator {
     errorElement.textContent = "";
   };
 
+  /** Метод очистки ошибок инпутов формы, запускаемый при открытии модалки  */
+  clearInputsError() {
+    this._inputsList.forEach((inputElement) => {
+      this._hideInputError(inputElement);
+    });
+  }
+
   /** Тоглим ошибки импута */
   _checkInputValidity(inputElement) {
     if (!inputElement.validity.valid) {

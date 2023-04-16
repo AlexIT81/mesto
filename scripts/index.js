@@ -18,7 +18,9 @@ const cardWrapper = document.querySelector(".elements"),
   modalImageFigcaption = modalImage.querySelector(".popup__figcaption"),
   titleInput = modalAdd.querySelector(".popup__input_title"),
   linkInput = modalAdd.querySelector(".popup__input_link"),
-  modalWindows = document.querySelectorAll(".popup");
+  modalWindows = document.querySelectorAll(".popup"),
+  editFormValidator = new FormValidator(validationConfig, formElementEdit),
+  addFormValidator = new FormValidator(validationConfig, formElementAdd);
 
 /** Функция открытия модального окна */
 function openModal(modal) {
@@ -92,6 +94,7 @@ initialCards.forEach((item) => {
 /** Редактирование информации о путешественнике */
 triggerModalEdit.addEventListener("click", () => {
   openModal(modalEdit);
+  editFormValidator.clearInputsError();
   nameInput.value = nameValue.textContent;
   jobInput.value = jobValue.textContent;
 });
@@ -99,7 +102,10 @@ triggerModalEdit.addEventListener("click", () => {
 formElementEdit.addEventListener("submit", handleFormEditSubmit);
 
 /** Добавление карточки */
-triggerModalAdd.addEventListener("click", () => openModal(modalAdd));
+triggerModalAdd.addEventListener("click", () => {
+  openModal(modalAdd);
+  addFormValidator.clearInputsError();
+});
 formElementAdd.addEventListener("submit", handleFormAddSubmit);
 
 /** Запуск валидации всех форм на странице */
