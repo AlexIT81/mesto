@@ -1,7 +1,7 @@
 import { createModalImage, openModal, modalImage } from "./index.js";
 
 class Card {
-  constructor(data,templateSelector) {
+  constructor(data, templateSelector) {
     this._name = data.name;
     this._link = data.link;
     this._templateSelector = templateSelector;
@@ -9,21 +9,24 @@ class Card {
 
   /** Находим template */
   _getTemplate() {
-    const cardElement = document.querySelector(this._templateSelector).content.querySelector(".element").cloneNode(true);
+    const cardElement = document
+      .querySelector(this._templateSelector)
+      .content.querySelector(".element")
+      .cloneNode(true);
     return cardElement;
   }
 
   /** Навешиваем обработчики */
   _setEventListeners() {
     this._element = this._getTemplate();
-    const cardElementTrash =this._element.querySelector(".element__trash"),
+    const cardElementTrash = this._element.querySelector(".element__trash"),
       cardElementIcon = this._element.querySelector(".element__icon"),
       cardElementImg = this._element.querySelector(".element__img");
     cardElementTrash.addEventListener("click", (e) => {
-      e.target.closest(".element").remove()
+      e.target.closest(".element").remove();
     });
     cardElementIcon.addEventListener("click", (e) =>
-    e.target.classList.toggle("element__icon_active")
+      e.target.classList.toggle("element__icon_active")
     );
     cardElementImg.addEventListener("click", (e) => {
       createModalImage(e);
@@ -35,7 +38,7 @@ class Card {
   createCard() {
     this._setEventListeners();
     const cardElementTitle = this._element.querySelector(".element__title"),
-    cardElementImg = this._element.querySelector(".element__img");
+      cardElementImg = this._element.querySelector(".element__img");
     cardElementImg.src = this._link;
     cardElementImg.alt = this._name;
     cardElementTitle.textContent = this._name;
@@ -43,4 +46,4 @@ class Card {
   }
 }
 
-export {Card};
+export { Card };

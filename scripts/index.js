@@ -10,7 +10,7 @@ const cardWrapper = document.querySelector(".elements"),
   jobValue = document.querySelector(".profile__sub-title"),
   nameInput = modalEdit.querySelector(".popup__input_name"),
   jobInput = modalEdit.querySelector(".popup__input_job"),
-  formElements = document.forms,
+  formElements = [...document.forms],
   formElementEdit = document.forms["edit"],
   formElementAdd = document.forms["add"],
   modalImage = document.querySelector(".popup_image"),
@@ -109,7 +109,7 @@ triggerModalAdd.addEventListener("click", () => openModal(modalAdd));
 formElementAdd.addEventListener("submit", handleFormAddSubmit);
 
 /** Запуск валидации всех форм на странице */
-Array.from(formElements).forEach((formElement) => {
+formElements.forEach((formElement) => {
   new FormValidator(validationConfig, formElement).enableValidation();
   })
 
