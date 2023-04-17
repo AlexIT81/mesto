@@ -25,7 +25,7 @@ class Card {
     cardElementTrash.addEventListener("click", () => this._element.remove());
     cardElementIcon.addEventListener("click", () => cardElementIcon.classList.toggle("element__icon_active"));
     cardElementImg.addEventListener("click", () => {
-      createModalImage(cardElementImg.src, cardElementImg.alt);
+      createModalImage(this._name, this._link);
       openModal(modalImage);
     });
   }

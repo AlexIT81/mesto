@@ -1,18 +1,18 @@
 class FormValidator {
-  constructor(data, formSelector) {
+  constructor(data, formElement) {
     this._inputSelector = data.inputSelector;
     this._submitButtonSelector = data.submitButtonSelector;
     this._inactiveButtonClass = data.inactiveButtonClass;
     this._inputErrorClass = data.inputErrorClass;
     this._errorClass = data.errorClass;
-    this._formSelector = formSelector;
-    this._inputsList = [...this._formSelector.querySelectorAll(this._inputSelector)];
-    this._buttonElement = this._formSelector.querySelector(this._submitButtonSelector);
+    this._formElement = formElement;
+    this._inputsList = [...this._formElement.querySelectorAll(this._inputSelector)];
+    this._buttonElement = this._formElement.querySelector(this._submitButtonSelector);
   }
 
   /** Показ ошибки инпута */
   _showInputError(inputElement) {
-    const errorElement = this._formSelector.querySelector(`.${inputElement.name}-input-error`);
+    const errorElement = this._formElement.querySelector(`.${inputElement.name}-input-error`);
     inputElement.classList.add(this._inputErrorClass);
     errorElement.classList.add(this._errorClass);
     errorElement.textContent = inputElement.validationMessage;
@@ -20,7 +20,7 @@ class FormValidator {
 
   /** Скрытие ошибки инпута */
   _hideInputError (inputElement) {
-    const errorElement = this._formSelector.querySelector(`.${inputElement.name}-input-error`);
+    const errorElement = this._formElement.querySelector(`.${inputElement.name}-input-error`);
     inputElement.classList.remove(this._inputErrorClass);
     errorElement.classList.remove(this._errorClass);
     errorElement.textContent = "";
@@ -73,7 +73,7 @@ class FormValidator {
 
   enableValidation() {
     this._setEventListeners();
-    this._formSelector.addEventListener("submit", (e) => {
+    this._formElement.addEventListener("submit", (e) => {
       e.preventDefault();
       this._toggleButtonState();
     });
