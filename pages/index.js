@@ -2,6 +2,7 @@ import { initialCards, validationConfig } from '../utils/constants.js';
 import Card  from '../components/Card.js';
 import FormValidator  from '../components/FormValidator.js';
 import Section from '../components/Section.js';
+import Popup from '../components/Popup.js';
 
 
 const cardWrapper = document.querySelector(".elements"),
@@ -24,6 +25,17 @@ const cardWrapper = document.querySelector(".elements"),
   modalWindows = document.querySelectorAll(".popup"),
   editFormValidator = new FormValidator(validationConfig, formElementEdit),
   addFormValidator = new FormValidator(validationConfig, formElementAdd);
+
+/** Начальное добавление карточек в галерею из массива */
+const initialAddCards = new Section({
+  items: initialCards,
+  renderer: (item) => {
+    const card = createCard(item, '#element');
+    initialAddCards.addItem(card);
+  }
+}, ".elements");
+
+initialAddCards.rendererItems();
 
 /** Функция открытия модального окна */
 function openModal(modal) {
@@ -90,16 +102,7 @@ function addCard(card) {
 }
 
 
-/** Начальное добавление карточек в галерею из массива */
-const initialAddCards = new Section({
-  items: initialCards,
-  renderer: (item) => {
-    const card = createCard(item, '#element');
-    initialAddCards.addItem(card);
-  }
-}, ".elements");
 
-initialAddCards.rendererItems();
 
 /** Редактирование информации о путешественнике */
 triggerModalEdit.addEventListener("click", () => {
