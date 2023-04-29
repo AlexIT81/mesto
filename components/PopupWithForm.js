@@ -8,8 +8,9 @@ export default class PopupWithForm extends Popup {
 
   }
 
-  _getInputValues(e) {
+  _getInputValues() {
     this._inputValues = Object.fromEntries(new FormData(this._form));
+    return this._inputValues;
   }
 
   setEventListeners() {
