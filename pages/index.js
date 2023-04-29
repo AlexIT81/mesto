@@ -1,5 +1,8 @@
-import { Card } from './Card.js';
-import { FormValidator } from './FormValidator.js';
+import { initialCards, validationConfig } from '../utils/constants.js';
+import Card  from '../components/Card.js';
+import FormValidator  from '../components/FormValidator.js';
+import Section from '../components/Section.js';
+
 
 const cardWrapper = document.querySelector(".elements"),
   triggerModalEdit = document.querySelector(".profile__edit-btn"),
@@ -86,10 +89,17 @@ function addCard(card) {
   cardWrapper.prepend(card);
 }
 
+
 /** Начальное добавление карточек в галерею из массива */
-initialCards.forEach((item) => {
-  addCard(createCard(item, '#element'));
-});
+const initialAddCards = new Section({
+  items: initialCards,
+  renderer: (item) => {
+    const card = createCard(item, '#element');
+    initialAddCards.addItem(card);
+  }
+}, ".elements");
+
+initialAddCards.rendererItems();
 
 /** Редактирование информации о путешественнике */
 triggerModalEdit.addEventListener("click", () => {

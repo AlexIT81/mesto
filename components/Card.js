@@ -1,6 +1,6 @@
-import { createModalImage, openModal, modalImage } from "./index.js";
+import { createModalImage, openModal, modalImage } from "../pages/index.js";
 
-class Card {
+export default class Card {
   constructor(data, templateSelector) {
     this._name = data.name;
     this._link = data.link;
@@ -25,7 +25,7 @@ class Card {
     cardElementTrash.addEventListener("click", () => this._element.remove());
     cardElementIcon.addEventListener("click", () => cardElementIcon.classList.toggle("element__icon_active"));
     cardElementImg.addEventListener("click", () => {
-      createModalImage(this._name, this._link);
+      createModalImage(this._link, this._name);
       openModal(modalImage);
     });
   }
@@ -41,5 +41,3 @@ class Card {
     return this._element;
   }
 }
-
-export { Card };
