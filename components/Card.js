@@ -1,10 +1,9 @@
-import { createModalImage, openModal, modalImage } from "../pages/index.js";
-
 export default class Card {
-  constructor(data, templateSelector) {
+  constructor({ data, handleCardClick }, templateSelector) {
     this._name = data.name;
     this._link = data.link;
     this._templateSelector = templateSelector;
+    this._handleCardClick = handleCardClick;
   }
 
   /** Находим template */
@@ -24,10 +23,7 @@ export default class Card {
       cardElementImg = this._element.querySelector(".element__img");
     cardElementTrash.addEventListener("click", () => this._element.remove());
     cardElementIcon.addEventListener("click", () => cardElementIcon.classList.toggle("element__icon_active"));
-    cardElementImg.addEventListener("click", () => {
-      createModalImage(this._link, this._name);
-      openModal(modalImage);
-    });
+    cardElementImg.addEventListener("click", (e) => this._handleCardClick(e));
   }
 
   /** Функция создания карточки */

@@ -5,6 +5,7 @@ import Section from '../components/Section.js';
 import Popup from '../components/Popup.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
+import UserInfo from '../components/UserInfo.js';
 
 
 const cardWrapper = document.querySelector(".elements"),
@@ -28,104 +29,78 @@ const cardWrapper = document.querySelector(".elements"),
   editFormValidator = new FormValidator(validationConfig, formElementEdit),
   addFormValidator = new FormValidator(validationConfig, formElementAdd);
 
-/** Начальное добавление карточек в галерею из массива */
-const initialAddCards = new Section({
-  items: initialCards,
-  renderer: (item) => {
-    const card = createCard(item, '#element');
-    initialAddCards.addItem(card);
-  }
-}, ".elements");
-
-initialAddCards.rendererItems();
-
-/** Функция открытия модального окна */
-function openModal(modal) {
-  modal.classList.add("popup_opened");
-  document.addEventListener("keydown", closeModalByPressEsc);
-}
-
-/** Функция-обработчик закрытия модалки при нажатии Esc */
-function closeModalByPressEsc(e) {
-  if (e.key === "Escape") {
-    const openedModal = document.querySelector(".popup_opened");
-    closeModal(openedModal);
-  }
-}
-
-/** Функция закрытия модального окна */
-function closeModal(modal) {
-  document.removeEventListener("keydown", closeModalByPressEsc);
-  modal.classList.remove("popup_opened");
-}
-
-/** Закрытие модального окна кликом на оверлей и на крестик */
-modalWindows.forEach((modal) => {
-  modal.addEventListener("mousedown", (e) => {
-    if (e.target.classList.contains("popup_opened") || e.target.classList.contains("popup__close")) closeModal(modal)
+  const userInfo = new UserInfo({
+    nameSelector: ".profile__title",
+    jobSelector: ".profile__sub-title"
   });
-});
 
-/** Функция генерации модального окна с картинкой из карточки */
-function createModalImage(imgUrl, imgDescription) {
-  modalImageFigure.src = imgUrl;
-  modalImageFigure.alt = imgDescription;
-  modalImageFigcaption.textContent = imgDescription;
-}
+  const modalEditTemp = new PopupWithForm({
+    popupSelector: '.popup_edit',
+    handleFormSubmit: ({ name, job }) => {
+      userInfo.setUserInfo({ name, job });
+      modalEditTemp.close();
+    }
+  });
 
-/** Функция обработки данных путешественника */
-function handleFormEditSubmit(e) {
-  e.preventDefault();
-  nameValue.textContent = nameInput.value;
-  jobValue.textContent = jobInput.value;
-  closeModal(modalEdit);
-}
+  const modalAddTemp = new PopupWithForm({
+    popupSelector: '.popup_add',
+    handleFormSubmit: (inputsValues) => {
+      const data = {
+        name: inputsValues.title,
+        link: inputsValues.link
+      }
+      const newCard = createCard({
+        data,
+        handleCardClick: (e) => {
+          modalImageTemp.open(e.target.src, e.target.alt);
+        }
+      }, '#element');
+      initialAddCards.addItem(newCard);
+      modalAddTemp.close();
+    }
+  });
 
-/** Функция создания карточки методом класса Card*/
-function createCard(cardData, template) {
-  return new Card(cardData, template).createCard();
-}
-
-/** Функция добавления карточки из модального окна */
-function handleFormAddSubmit(e) {
-  e.preventDefault();
-  const cardData = {
-    name: titleInput.value,
-    link: linkInput.value
-  }
-  addCard(createCard(cardData, '#element'));
-  e.target.reset();
-  closeModal(modalAdd);
-}
-
-/** Функция добавления карточки в DOM */
-function addCard(card) {
-  cardWrapper.prepend(card);
-}
+  const modalImageTemp= new PopupWithImage('.popup_image');
 
 
 
-
-/** Редактирование информации о путешественнике */
-triggerModalEdit.addEventListener("click", () => {
-  openModal(modalEdit);
+/** Модальное окно с редактированием  */
+triggerModalEdit.addEventListener('click', () => {
+  modalEditTemp.open();
+  modalEditTemp.initialData(userInfo.getUserInfo());
   editFormValidator.clearInputsError();
-  nameInput.value = nameValue.textContent;
-  jobInput.value = jobValue.textContent;
 });
 
-formElementEdit.addEventListener("submit", handleFormEditSubmit);
-
-/** Добавление карточки */
-triggerModalAdd.addEventListener("click", () => {
-  openModal(modalAdd);
+/** Модальное окно с добавлением  */
+triggerModalAdd.addEventListener('click', () => {
+  modalAddTemp.open();
   addFormValidator.clearInputsError();
 });
-formElementAdd.addEventListener("submit", handleFormAddSubmit);
+
+
+
 
 /** Запуск валидации всех форм на странице */
 formElements.forEach((formElement) => {
   new FormValidator(validationConfig, formElement).enableValidation();
   })
 
-export { createModalImage, openModal, modalImage };
+/** Функция создания карточки методом класса Card*/
+function createCard(cardData, template) {
+  return new Card(cardData, template).createCard();
+}
+
+/** Начальное добавление карточек в галерею из массива */
+const initialAddCards = new Section({
+  items: initialCards,
+  renderer: (item) => {
+    const card = createCard({
+      data: item,
+      handleCardClick: (e) => {
+        modalImageTemp.open(e.target.src, e.target.alt);
+      }
+    }, '#element');
+    initialAddCards.addItem(card);
+  }
+}, ".elements");
+initialAddCards.rendererItems();
