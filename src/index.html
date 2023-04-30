@@ -7,19 +7,18 @@
   <title>Жак-Ив Кусто - исследователь океана!</title>
   <meta name="description" content="Жак-Ив Кусто - французский исследователь Мирового океана, фотограф, режиссёр, изобретатель, автор множества книг и фильмов.">
   <meta name="keywords" content="Жак-Ив, Кусто, Жак-Ив Кусто, французский исследователь">
-  <link rel="icon" href="./images/favicon.png">
-  <link rel="stylesheet" href="./pages/index.css">
+  <link rel="icon" href="<%=require('./images/favicon.png')%>">
 </head>
 <body class="page">
   <div class="root page__root">
     <header class="header root__header">
       <a class="main-link" href="./index.html" title="Проект - Место">
-        <img src="./images/logo.svg" alt="Проект - Место." class="header__logo">
+        <img src="<%=require('./images/logo.svg')%>" alt="Проект - Место." class="header__logo">
       </a>
     </header>
     <main class="root__main">
       <section class="profile root__profile">
-        <img src="./images/jak-iv_kusto.jpg" alt="Жак-Ив Кусто - французский исследователь Мирового океана, фотограф, режиссёр, изобретатель, автор множества книг и фильмов." class="profile__avatar">
+        <img src="<%=require('./images/jak-iv_kusto.jpg')%>" alt="Жак-Ив Кусто - французский исследователь Мирового океана, фотограф, режиссёр, изобретатель, автор множества книг и фильмов." class="profile__avatar">
         <div class="profile__info-wrapper">
           <div class="profile__info">
             <h1 class="profile__title">Жак-Ив Кусто</h1>
@@ -83,6 +82,5 @@
       </div>
     </li>
   </template>
-  <script type="module" src="./pages/index.js"></script>
 </body>
 </html>
