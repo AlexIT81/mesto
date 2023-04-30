@@ -23,7 +23,7 @@ export default class Card {
       cardElementImg = this._element.querySelector(".element__img");
     cardElementTrash.addEventListener("click", () => this._element.remove());
     cardElementIcon.addEventListener("click", () => cardElementIcon.classList.toggle("element__icon_active"));
-    cardElementImg.addEventListener("click", (e) => this._handleCardClick(e));
+    cardElementImg.addEventListener("click", (e) => this._handleCardClick(e.target.src, e.target.alt));
   }
 
   /** Функция создания карточки */

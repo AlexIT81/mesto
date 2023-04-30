@@ -33,3 +33,9 @@ export const validationConfig = {
   inputErrorClass: "popup__input_type_error",
   errorClass: "popup__error_visible",
 };
+
+export const triggerModalEdit = document.querySelector(".profile__edit-btn"),
+  triggerModalAdd = document.querySelector(".profile__add-btn"),
+  formElements = [...document.forms],
+  formElementEdit = document.forms["edit"],
+  formElementAdd = document.forms["add"];
