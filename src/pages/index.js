@@ -1,4 +1,4 @@
-import './index.css';
+import "./index.css";
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
@@ -10,7 +10,6 @@ import {
   validationConfig,
   triggerModalEdit,
   triggerModalAdd,
-  formElements,
   formElementEdit,
   formElementAdd,
 } from "../utils/constants.js";
@@ -18,7 +17,11 @@ import {
 const editFormValidator = new FormValidator(validationConfig, formElementEdit),
   addFormValidator = new FormValidator(validationConfig, formElementAdd);
 
+editFormValidator.enableValidation();
+addFormValidator.enableValidation();
+
 const modalImage = new PopupWithImage(".popup_image");
+modalImage.setEventListeners();
 
 /** Функция создания карточки методом класса Card*/
 function createCard(data) {
@@ -54,7 +57,7 @@ const userInfo = new UserInfo({
 /** Открытие модалки с добавлением карточки */
 triggerModalAdd.addEventListener("click", () => {
   modalAdd.open();
-  addFormValidator.clearInputsError();
+  addFormValidator.resetValidation();
 });
 
 const modalAdd = new PopupWithForm({
@@ -69,12 +72,13 @@ const modalAdd = new PopupWithForm({
     modalAdd.close();
   },
 });
+modalAdd.setEventListeners();
 
 /** Открытие модалки с редактированием */
 triggerModalEdit.addEventListener("click", () => {
   modalEdit.open();
-  editFormValidator.clearInputsError();
-  modalEdit.initialData(userInfo.getUserInfo());
+  editFormValidator.resetValidation();
+  modalEdit.setInputValues(userInfo.getUserInfo());
 });
 
 const modalEdit = new PopupWithForm({
@@ -84,8 +88,4 @@ const modalEdit = new PopupWithForm({
     modalEdit.close();
   },
 });
-
-/** Запуск валидации всех форм на странице */
-formElements.forEach((formElement) => {
-  new FormValidator(validationConfig, formElement).enableValidation();
-});
+modalEdit.setEventListeners();

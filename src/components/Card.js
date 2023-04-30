@@ -4,6 +4,11 @@ export default class Card {
     this._link = data.link;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
+    this._element = this._getTemplate();
+    this._trashBtn = this._element.querySelector(".element__trash");
+    this._likeBtn = this._element.querySelector(".element__icon");
+    this._cardImg = this._element.querySelector(".element__img");
+    this._cardTitle = this._element.querySelector(".element__title");
   }
 
   /** Находим template */
@@ -15,25 +20,34 @@ export default class Card {
     return cardElement;
   }
 
+  /** Тоглим лайки */
+  _toggleLike() {
+    this._likeBtn.classList.toggle("element__icon_active");
+  }
+
+  /** Удаляем карточку из DOM */
+  _deleteCard() {
+    this._element.remove();
+  }
+
+  /** Обработка клика по картинки */
+  _handleImageClick(e) {
+    this._handleCardClick(e.target.src, e.target.alt);
+  }
+
   /** Навешиваем обработчики */
   _setEventListeners() {
-    this._element = this._getTemplate();
-    const cardElementTrash = this._element.querySelector(".element__trash"),
-      cardElementIcon = this._element.querySelector(".element__icon"),
-      cardElementImg = this._element.querySelector(".element__img");
-    cardElementTrash.addEventListener("click", () => this._element.remove());
-    cardElementIcon.addEventListener("click", () => cardElementIcon.classList.toggle("element__icon_active"));
-    cardElementImg.addEventListener("click", (e) => this._handleCardClick(e.target.src, e.target.alt));
+    this._trashBtn.addEventListener("click", () => this._deleteCard());
+    this._likeBtn.addEventListener("click", () => this._toggleLike());
+    this._cardImg.addEventListener("click", (e) => this._handleImageClick(e));
   }
 
   /** Функция создания карточки */
   createCard() {
     this._setEventListeners();
-    const cardElementTitle = this._element.querySelector(".element__title"),
-      cardElementImg = this._element.querySelector(".element__img");
-    cardElementImg.src = this._link;
-    cardElementImg.alt = this._name;
-    cardElementTitle.textContent = this._name;
+    this._cardImg.src = this._link;
+    this._cardImg.alt = this._name;
+    this._cardTitle.textContent = this._name;
     return this._element;
   }
 }

@@ -26,8 +26,9 @@ export default class FormValidator {
     errorElement.textContent = "";
   };
 
-  /** Метод очистки ошибок инпутов формы, запускаемый при открытии модалки  */
-  clearInputsError() {
+  /** Метод очистки ошибок инпутов формы и проверка кнопки */
+  resetValidation() {
+    this._toggleButtonState();
     this._inputsList.forEach((inputElement) => {
       this._hideInputError(inputElement);
     });
