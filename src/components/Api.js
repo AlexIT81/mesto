@@ -55,4 +55,13 @@ export default class Api {
       }),
     }).then(this._checkRes);
   }
+
+  deleteCard(cardId) {
+    return fetch(`${this._apiUrl}${this._apiCogortId}/cards/${cardId}`, {
+      method: "DELETE",
+      headers: {
+        authorization: this._apiToken,
+      },
+    }).then(this._checkRes);
+  }
 }

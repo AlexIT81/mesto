@@ -13,13 +13,20 @@ export default class UserInfo {
     return this._dataUser;
   }
 
-  setUserInfo({ name, job }) {
+  setUserInfo(data) {
+    const {name, about, avatar, _id} = data;
     this._name.textContent = name;
-    this._job.textContent = job;
+    this._job.textContent = about;
     this._avatar.alt = name;
+    this._avatar.src = avatar;
+    this._myId = _id;
   }
 
   setUserAvatar(avatarUrl) {
     this._avatar.src = avatarUrl;
+  }
+
+  getUserId() {
+    return this._myId;
   }
 }
