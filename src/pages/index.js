@@ -75,6 +75,7 @@ function createCard(data) {
     {
       data: data,
       handleCardClick: (link, name) => {
+        console.log(name);
         modalImage.open(link, name);
       },
     },

@@ -28,6 +28,8 @@
 @import url(../blocks/element/__img/element__img.css);
 @import url(../blocks/element/__title/element__title.css);
 @import url(../blocks/element/__trash/element__trash.css);
+@import url(../blocks/element/__icon-count/element__icon-count.css);
+@import url(../blocks/element/__icon-wrapper/element__icon-wrapper.css);
 @import url(../blocks/footer/__text/footer__text.css);
 @import url(../blocks/popup/popup.css);
 @import url(../blocks/popup/__button/popup__button.css);
