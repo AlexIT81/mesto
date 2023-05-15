@@ -48,6 +48,26 @@ api
     console.log(err); // выведем ошибку в консоль
   });
 
+/** Открытие модалки с редактированием */
+triggerModalEdit.addEventListener("click", () => {
+  modalEdit.open();
+  editFormValidator.resetValidation();
+  modalEdit.setInputValues(userInfo.getUserInfo());
+});
+
+const modalEdit = new PopupWithForm({
+  popupSelector: ".popup_edit",
+  handleFormSubmit: ({ name, job }) => {
+    api.editUserInfo({ name, job }).then((res) => {
+      userInfo.setUserInfo({ name: res.name, job: res.about });
+    })
+    .catch((err) => {
+      console.log(err); // выведем ошибку в консоль
+    });
+    modalEdit.close();
+  },
+});
+modalEdit.setEventListeners();
 
 /** Функция создания карточки методом класса Card*/
 function createCard(data) {
@@ -63,9 +83,9 @@ function createCard(data) {
 }
 
 /** Начальная загрузка карточек с сервера */
-api.getInitialCards()
+api
+  .getInitialCards()
   .then((res) => {
-    console.log(res);
     const initialAddCards = new Section(
       {
         items: res,
@@ -81,7 +101,6 @@ api.getInitialCards()
   .catch((err) => {
     console.log(err);
   });
-
 
 /** Начальное добавление карточек в галерею из массива */
 // const initialAddCards = new Section(
@@ -117,18 +136,17 @@ const modalAdd = new PopupWithForm({
 modalAdd.setEventListeners();
 
 /** Открытие модалки с редактированием */
-triggerModalEdit.addEventListener("click", () => {
-  modalEdit.open();
-  editFormValidator.resetValidation();
-  modalEdit.setInputValues(userInfo.getUserInfo());
-});
+// triggerModalEdit.addEventListener("click", () => {
+//   modalEdit.open();
+//   editFormValidator.resetValidation();
+//   modalEdit.setInputValues(userInfo.getUserInfo());
+// });
 
-const modalEdit = new PopupWithForm({
-  popupSelector: ".popup_edit",
-  handleFormSubmit: ({ name, job }) => {
-    userInfo.setUserInfo({ name, job });
-    modalEdit.close();
-  },
-});
-modalEdit.setEventListeners();
-
+// const modalEdit = new PopupWithForm({
+//   popupSelector: ".popup_edit",
+//   handleFormSubmit: ({ name, job }) => {
+//     userInfo.setUserInfo({ name, job });
+//     modalEdit.close();
+//   },
+// });
+// modalEdit.setEventListeners();

@@ -5,19 +5,19 @@ export default class Api {
     this._apiCogortId = apiCogortId;
   }
 
+  _checkRes(res) {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
+  }
+
   getInitialCards() {
     return fetch(`${this._apiUrl}${this._apiCogortId}/cards`, {
       headers: {
         authorization: this._apiToken,
       },
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    }).then((res) => this._checkRes(res));
   }
 
   getUserInfo() {
@@ -25,14 +25,20 @@ export default class Api {
       headers: {
         authorization: this._apiToken,
       },
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    }).then((res) => this._checkRes(res));
   }
 
-  // другие методы работы с API
+  editUserInfo({ name, job }) {
+    return fetch(`${this._apiUrl}${this._apiCogortId}/users/me`, {
+      method: "PATCH",
+      headers: {
+        authorization: this._apiToken,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: name,
+        about: job,
+      }),
+    }).then((res) => this._checkRes(res));
+  }
 }
