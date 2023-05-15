@@ -1,14 +1,16 @@
 export default class Card {
-  constructor({ data, myId, handleCardClick, handleDeleteBtn }, templateSelector) {
+  constructor({ data, myId, handleCardClick, handleDeleteBtn, handleLikeBtn }, templateSelector) {
     this._name = data.name;
     this._link = data.link;
-    this._likeNumber = data.likes.length;
+    this._likeQuantity = data.likes.length;
+    this._likesArr = data.likes;
     this._cardId = data._id;
     this._cardOwner = data.owner._id;
     this._myId = myId;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
     this._handleDeleteBtn = handleDeleteBtn;
+    this._handleLikeBtn = handleLikeBtn;
     this._element = this._getTemplate();
     this._trashBtn = this._element.querySelector(".element__trash");
     this._likeBtn = this._element.querySelector(".element__icon");
@@ -31,6 +33,10 @@ export default class Card {
     this._likeBtn.classList.toggle("element__icon_active");
   }
 
+  setLikeQuantity(quantity) {
+    this._likeCount.textContent = quantity;
+  }
+
   /** Удаляем карточку из DOM */
   _deleteCard() {
     this._element.remove();
@@ -48,9 +54,10 @@ export default class Card {
     } else {
       this._trashBtn.remove();
     }
-
-
-    this._likeBtn.addEventListener("click", () => this._toggleLike());
+    this._likeBtn.addEventListener("click", (e) => {
+      this._handleLikeBtn(e);
+      this._toggleLike();
+    });
     this._cardImg.addEventListener("click", (e) => this._handleImageClick(e));
   }
 
@@ -60,7 +67,10 @@ export default class Card {
     this._cardImg.src = this._link;
     this._cardImg.alt = this._name;
     this._cardTitle.textContent = this._name;
-    this._likeCount.textContent = this._likeNumber;
+    this._likeCount.textContent = this._likeQuantity;
+    if (this._likesArr.some(elem => elem._id === this._myId)) {
+      this._likeBtn.classList.add("element__icon_active");
+    }
     return this._element;
   }
 

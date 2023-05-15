@@ -72,7 +72,7 @@ const modalEdit = new PopupWithForm({
 modalEdit.setEventListeners();
 
 /** Модалка с подтверждение */
-const modalConfirm = new PopupWithConfirm('.popup_confirm');
+const modalConfirm = new PopupWithConfirm(".popup_confirm");
 modalConfirm.setEventListeners();
 
 /** Функция создания карточки методом класса Card*/
@@ -85,12 +85,12 @@ function createCard(data) {
         modalImage.open(link, name);
       },
       handleDeleteBtn: (e) => {
-        const cardElement = e.target.closest('.element');
-        const thisCardId = newCard.getCardId()
+        const cardElement = e.target.closest(".element");
+        const thisCardId = newCard.getCardId();
         modalConfirm.open();
         modalConfirm.setSubmitConfirm(() => {
-          console.log(thisCardId);
-          api.deleteCard(thisCardId)
+          api
+            .deleteCard(thisCardId)
             .then(() => {
               cardElement.remove();
               modalConfirm.close();
@@ -99,10 +99,36 @@ function createCard(data) {
               console.log(err);
             });
         });
-      }
+      },
+      handleLikeBtn: (e) => {
+        const thisCardId = newCard.getCardId();
+        if (e.target.classList.contains('element__icon_active')) {
+          api
+          .removeLike(thisCardId)
+          .then((res) => {
+            console.log(res.likes);
+            const likeQuantity = res.likes.length;
+            newCard.setLikeQuantity(likeQuantity);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        } else {
+          api
+          .setLike(thisCardId)
+          .then((res) => {
+            console.log(res.likes);
+            const likeQuantity = res.likes.length;
+            newCard.setLikeQuantity(likeQuantity);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        }
+      },
     },
     "#element"
-  )
+  );
   return newCard.createCard();
 }
 
@@ -121,7 +147,6 @@ const cardsSection = new Section(
 api
   .getInitialCards()
   .then((res) => {
-    console.log(res);
     cardsSection.rendererItems(res);
   })
   .catch((err) => {
@@ -144,7 +169,7 @@ const modalAdd = new PopupWithForm({
     api
       .addNewCard(data)
       .then((res) => {
-        console.log(res)
+        console.log(res);
         const card = createCard(res);
         cardsSection.addItem(card);
       })

@@ -64,4 +64,22 @@ export default class Api {
       },
     }).then(this._checkRes);
   }
+
+  setLike(cardId) {
+    return fetch(`${this._apiUrl}${this._apiCogortId}/cards/${cardId}/likes`, {
+      method: "PUT",
+      headers: {
+        authorization: this._apiToken,
+      },
+    }).then(this._checkRes);
+  }
+
+  removeLike(cardId) {
+    return fetch(`${this._apiUrl}${this._apiCogortId}/cards/${cardId}/likes`, {
+      method: "DELETE",
+      headers: {
+        authorization: this._apiToken,
+      },
+    }).then(this._checkRes);
+  }
 }
