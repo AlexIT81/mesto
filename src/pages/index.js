@@ -1,4 +1,5 @@
 import "./index.css";
+import Api from "../components/Api.js";
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
@@ -12,6 +13,9 @@ import {
   triggerModalAdd,
   formElementEdit,
   formElementAdd,
+  apiToken,
+  apiUrl,
+  apiCogortId,
 } from "../utils/constants.js";
 
 const editFormValidator = new FormValidator(validationConfig, formElementEdit),
@@ -52,6 +56,7 @@ initialAddCards.rendererItems();
 const userInfo = new UserInfo({
   nameSelector: ".profile__title",
   jobSelector: ".profile__sub-title",
+  avatarSelector: ".profile__avatar",
 });
 
 /** Открытие модалки с добавлением карточки */
@@ -89,3 +94,16 @@ const modalEdit = new PopupWithForm({
   },
 });
 modalEdit.setEventListeners();
+
+/** Загрузка информации о пользователе с сервера  */
+const api = new Api(apiToken, apiUrl, apiCogortId);
+api
+  .getUserInfo()
+  .then((res) => {
+    userInfo.setUserInfo({ name: res.name, job: res.about });
+    userInfo.setUserAvatar(res.avatar);
+    console.log(res);
+  })
+  .catch((err) => {
+    console.log(err); // выведем ошибку в консоль
+  });
