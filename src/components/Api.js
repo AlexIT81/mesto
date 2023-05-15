@@ -17,7 +17,7 @@ export default class Api {
       headers: {
         authorization: this._apiToken,
       },
-    }).then((res) => this._checkRes(res));
+    }).then(this._checkRes);
   }
 
   getUserInfo() {
@@ -25,7 +25,7 @@ export default class Api {
       headers: {
         authorization: this._apiToken,
       },
-    }).then((res) => this._checkRes(res));
+    }).then(this._checkRes);
   }
 
   editUserInfo({ name, job }) {
@@ -39,6 +39,20 @@ export default class Api {
         name: name,
         about: job,
       }),
-    }).then((res) => this._checkRes(res));
+    }).then(this._checkRes);
+  }
+
+  addNewCard(data) {
+    return fetch(`${this._apiUrl}${this._apiCogortId}/cards`, {
+      method: "POST",
+      headers: {
+        authorization: this._apiToken,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: data.name,
+        link: data.link,
+      }),
+    }).then(this._checkRes);
   }
 }

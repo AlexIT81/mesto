@@ -82,21 +82,22 @@ function createCard(data) {
   ).createCard();
 }
 
-/** Начальная загрузка карточек с сервера */
+/** Инициализация класса для отрисовки карточек */
+const cardsSection = new Section(
+  {
+    renderer: (data) => {
+      const card = createCard(data);
+      cardsSection.addItem(card);
+    },
+  },
+  ".elements"
+);
+
+/** Отрисовка начальных карточек на странице */
 api
   .getInitialCards()
   .then((res) => {
-    const initialAddCards = new Section(
-      {
-        items: res,
-        renderer: (data) => {
-          const card = createCard(data);
-          initialAddCards.addItem(card);
-        },
-      },
-      ".elements"
-    );
-    initialAddCards.rendererItems();
+    cardsSection.rendererItems(res);
   })
   .catch((err) => {
     console.log(err);
@@ -128,8 +129,12 @@ const modalAdd = new PopupWithForm({
       name: inputsValues.title,
       link: inputsValues.link,
     };
-    const card = createCard(data);
-    initialAddCards.addItem(card);
+    api.addNewCard(data)
+      .then((res) => {
+        const card = createCard(data);
+        cardsSection.addItem(card);
+      })
+      .catch(err => console.log(err));
     modalAdd.close();
   },
 });
