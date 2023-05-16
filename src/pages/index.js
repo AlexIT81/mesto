@@ -5,10 +5,9 @@ import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
-import PopupWithConfirm from "../components/PopupWithConfirm";
+import PopupWithConfirmation from "../components/PopupWithConfirmation.js";
 import UserInfo from "../components/UserInfo.js";
 import {
-  // initialCards,
   validationConfig,
   triggerModalEdit,
   triggerModalAdd,
@@ -63,6 +62,7 @@ triggerModalEdit.addEventListener("click", () => {
 const modalEdit = new PopupWithForm({
   popupSelector: ".popup_edit",
   handleFormSubmit: ({ name, job }) => {
+    modalEdit.renderLoading(true);
     api
       .editUserInfo({ name, job })
       .then((res) => {
@@ -70,14 +70,17 @@ const modalEdit = new PopupWithForm({
       })
       .catch((err) => {
         console.error(err); // выведем ошибку в консоль
+      })
+      .finally(() => {
+        modalEdit.renderLoading(false);
+        modalEdit.close();
       });
-    modalEdit.close();
   },
 });
 modalEdit.setEventListeners();
 
 /** Модалка с подтверждение */
-const modalConfirm = new PopupWithConfirm(".popup_confirm");
+const modalConfirm = new PopupWithConfirmation(".popup_confirm");
 modalConfirm.setEventListeners();
 
 /** Функция создания карточки методом класса Card*/
@@ -111,7 +114,6 @@ function createCard(data) {
           api
             .removeLike(thisCardId)
             .then((res) => {
-              console.log(res.likes);
               const likeQuantity = res.likes.length;
               newCard.setLikeQuantity(likeQuantity);
             })
@@ -166,6 +168,7 @@ triggerModalAdd.addEventListener("click", () => {
 const modalAdd = new PopupWithForm({
   popupSelector: ".popup_add",
   handleFormSubmit: (inputsValues) => {
+    modalAdd.renderLoading(true);
     const data = {
       name: inputsValues.title,
       link: inputsValues.link,
@@ -176,8 +179,11 @@ const modalAdd = new PopupWithForm({
         const card = createCard(res);
         cardsSection.addItem(card);
       })
-      .catch((err) => console.log(err));
-    modalAdd.close();
+      .catch((err) => console.log(err))
+      .finally(() => {
+        modalAdd.renderLoading(false);
+        modalAdd.close();
+      });
   },
 });
 modalAdd.setEventListeners();
@@ -191,13 +197,28 @@ triggerModalAvatar.addEventListener("click", () => {
 const modalAvatar = new PopupWithForm({
   popupSelector: ".popup_update-avatar",
   handleFormSubmit: (inputsValues) => {
+    modalAvatar.renderLoading(true);
     api
     .setAvatar(inputsValues)
     .then((res) => {
       userInfo.setUserAvatar(res);
     })
-    .catch((err) => console.log(err));
-  modalAvatar.close();
+    .catch((err) => console.log(err))
+    .finally(() => {
+      modalAvatar.renderLoading(false);
+      modalAvatar.close();
+    });
   },
 });
 modalAvatar.setEventListeners();
+
+/** UX форм */
+function renderLoading(isLoading) {
+  if (isLoading) {
+
+    content.classList.add('content_hidden');
+  } else {
+    spinner.classList.remove('spinner_visible');
+    content.classList.remove('content_hidden');
+  }
+}
