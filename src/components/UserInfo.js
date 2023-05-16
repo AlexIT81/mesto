@@ -14,7 +14,7 @@ export default class UserInfo {
   }
 
   setUserInfo(data) {
-    const {name, about, avatar, _id} = data;
+    const { name, about, avatar, _id } = data;
     this._name.textContent = name;
     this._job.textContent = about;
     this._avatar.alt = name;

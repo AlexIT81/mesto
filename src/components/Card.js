@@ -1,5 +1,8 @@
 export default class Card {
-  constructor({ data, myId, handleCardClick, handleDeleteBtn, handleLikeBtn }, templateSelector) {
+  constructor(
+    { data, myId, handleCardClick, handleDeleteBtn, handleLikeBtn },
+    templateSelector
+  ) {
     this._name = data.name;
     this._link = data.link;
     this._likeQuantity = data.likes.length;
@@ -14,7 +17,7 @@ export default class Card {
     this._element = this._getTemplate();
     this._trashBtn = this._element.querySelector(".element__trash");
     this._likeBtn = this._element.querySelector(".element__icon");
-    this._likeCount = this._element.querySelector('.element__icon-count');
+    this._likeCount = this._element.querySelector(".element__icon-count");
     this._cardImg = this._element.querySelector(".element__img");
     this._cardTitle = this._element.querySelector(".element__title");
   }
@@ -68,7 +71,7 @@ export default class Card {
     this._cardImg.alt = this._name;
     this._cardTitle.textContent = this._name;
     this._likeCount.textContent = this._likeQuantity;
-    if (this._likesArr.some(elem => elem._id === this._myId)) {
+    if (this._likesArr.some((elem) => elem._id === this._myId)) {
       this._likeBtn.classList.add("element__icon_active");
     }
     return this._element;

@@ -12,7 +12,7 @@ export default class Api {
     return Promise.reject(`Ошибка: ${res.status}`);
   }
 
-  getInitialCards() {
+  _getInitialCards() {
     return fetch(`${this._apiUrl}${this._apiCogortId}/cards`, {
       headers: {
         authorization: this._apiToken,
@@ -26,6 +26,10 @@ export default class Api {
         authorization: this._apiToken,
       },
     }).then(this._checkRes);
+  }
+
+  getServerData() {
+    return Promise.all([this._getInitialCards(), this.getUserInfo()]);
   }
 
   editUserInfo({ name, job }) {

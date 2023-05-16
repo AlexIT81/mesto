@@ -29,59 +29,27 @@ editFormValidator.enableValidation();
 addFormValidator.enableValidation();
 avatarFormValidator.enableValidation();
 
-/** Модалка с большой картинкой */
-const modalImage = new PopupWithImage(".popup_image");
-modalImage.setEventListeners();
-
 /** Подключаем API */
 const api = new Api(apiToken, apiUrl, apiCogortId);
 
-/** Создаем пользователя из класса */
-const userInfo = new UserInfo({
-  nameSelector: ".profile__title",
-  jobSelector: ".profile__sub-title",
-  avatarSelector: ".profile__avatar",
-});
-
+/** Начальное полученение карточек и данных пользователя с отрисовкой в DOM */
 api
-  .getUserInfo()
+  .getServerData()
   .then((res) => {
-    userInfo.setUserInfo(res);
+    const [initialCards, userData] = res;
+    userInfo.setUserInfo(userData);
+    cardsSection.rendererItems(initialCards);
   })
   .catch((err) => {
     console.error(err);
   });
 
-/** Открытие модалки с редактированием */
-triggerModalEdit.addEventListener("click", () => {
-  modalEdit.open();
-  editFormValidator.resetValidation();
-  modalEdit.setInputValues(userInfo.getUserInfo());
+/** Инициализируем UserInfo */
+const userInfo = new UserInfo({
+  nameSelector: ".profile__title",
+  jobSelector: ".profile__sub-title",
+  avatarSelector: ".profile__avatar",
 });
-
-const modalEdit = new PopupWithForm({
-  popupSelector: ".popup_edit",
-  handleFormSubmit: ({ name, job }) => {
-    modalEdit.renderLoading(true);
-    api
-      .editUserInfo({ name, job })
-      .then((res) => {
-        userInfo.setUserInfo(res);
-      })
-      .catch((err) => {
-        console.error(err); // выведем ошибку в консоль
-      })
-      .finally(() => {
-        modalEdit.renderLoading(false);
-        modalEdit.close();
-      });
-  },
-});
-modalEdit.setEventListeners();
-
-/** Модалка с подтверждение */
-const modalConfirm = new PopupWithConfirmation(".popup_confirm");
-modalConfirm.setEventListeners();
 
 /** Функция создания карточки методом класса Card*/
 function createCard(data) {
@@ -149,17 +117,42 @@ const cardsSection = new Section(
   ".elements"
 );
 
-/** Отрисовка начальных карточек на странице */
-api
-  .getInitialCards()
-  .then((res) => {
-    cardsSection.rendererItems(res);
-  })
-  .catch((err) => {
-    console.error(err);
-  });
+/** Модалка с редактированием */
+triggerModalEdit.addEventListener("click", () => {
+  modalEdit.open();
+  editFormValidator.resetValidation();
+  modalEdit.setInputValues(userInfo.getUserInfo());
+});
 
-/** Добавление карточки на страницу */
+const modalEdit = new PopupWithForm({
+  popupSelector: ".popup_edit",
+  handleFormSubmit: ({ name, job }) => {
+    modalEdit.renderLoading(true);
+    api
+      .editUserInfo({ name, job })
+      .then((res) => {
+        userInfo.setUserInfo(res);
+      })
+      .catch((err) => {
+        console.error(err); // выведем ошибку в консоль
+      })
+      .finally(() => {
+        modalEdit.renderLoading(false);
+        modalEdit.close();
+      });
+  },
+});
+modalEdit.setEventListeners();
+
+/** Модалка с подтверждение */
+const modalConfirm = new PopupWithConfirmation(".popup_confirm");
+modalConfirm.setEventListeners();
+
+/** Модалка с большой картинкой */
+const modalImage = new PopupWithImage(".popup_image");
+modalImage.setEventListeners();
+
+/** Модалка с добавлением карточки на страницу */
 triggerModalAdd.addEventListener("click", () => {
   modalAdd.open();
   addFormValidator.resetValidation();
@@ -179,7 +172,7 @@ const modalAdd = new PopupWithForm({
         const card = createCard(res);
         cardsSection.addItem(card);
       })
-      .catch((err) => console.log(err))
+      .catch((err) => console.error(err))
       .finally(() => {
         modalAdd.renderLoading(false);
         modalAdd.close();
@@ -199,26 +192,15 @@ const modalAvatar = new PopupWithForm({
   handleFormSubmit: (inputsValues) => {
     modalAvatar.renderLoading(true);
     api
-    .setAvatar(inputsValues)
-    .then((res) => {
-      userInfo.setUserAvatar(res);
-    })
-    .catch((err) => console.log(err))
-    .finally(() => {
-      modalAvatar.renderLoading(false);
-      modalAvatar.close();
-    });
+      .setAvatar(inputsValues)
+      .then((res) => {
+        userInfo.setUserAvatar(res);
+      })
+      .catch((err) => console.error(err))
+      .finally(() => {
+        modalAvatar.renderLoading(false);
+        modalAvatar.close();
+      });
   },
 });
 modalAvatar.setEventListeners();
-
-/** UX форм */
-function renderLoading(isLoading) {
-  if (isLoading) {
-
-    content.classList.add('content_hidden');
-  } else {
-    spinner.classList.remove('spinner_visible');
-    content.classList.remove('content_hidden');
-  }
-}
