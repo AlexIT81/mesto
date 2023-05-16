@@ -1,6 +1,6 @@
 # Landing Page c отзывчивой версткой на HTML c CSS + интерактивность на JS!
 
-[Ссылка на сайт](https://AlexIT81.github.io/mesto/index.html)
+[Ссылка на сайт](https://alexit81.github.io/mesto/index.html)
 
 # 9ПР 2023.05.16
 * Загрузили информацию о пользователи с сервера;
