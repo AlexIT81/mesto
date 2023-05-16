@@ -20,6 +20,7 @@
     <main class="root__main">
       <section class="profile root__profile">
         <img src="<%=require('./images/jak-iv_kusto.jpg')%>" alt="Жак-Ив Кусто - французский исследователь Мирового океана, фотограф, режиссёр, изобретатель, автор множества книг и фильмов." class="profile__avatar">
+        <button class="profile__avatar-btn" type="button"></button>
         <div class="profile__info-wrapper">
           <div class="profile__info">
             <h1 class="profile__title">Жак-Ив Кусто</h1>
@@ -77,6 +78,17 @@
         <h2 class="popup__title popup__title_place_confirm">Вы уверены?</h2>
         <form class="popup__form" name="confirm" novalidate>
           <button class="popup__button" type="submit">Да</button>
+        </form>
+        <button class="popup__close main-link" type="button"></button>
+      </div>
+    </div>
+    <div class="popup popup_update-avatar">
+      <div class="popup__container">
+        <h2 class="popup__title">Обновить аватар</h2>
+        <form class="popup__form" action="./" name="update-avatar" novalidate>
+          <input class="popup__input popup__input_name" type="url" name="link" required placeholder="Ссылка на аватар">
+          <span class="popup__error link-input-error"></span>
+          <button class="popup__button" type="submit">Сохранить</button>
         </form>
         <button class="popup__close main-link" type="button"></button>
       </div>

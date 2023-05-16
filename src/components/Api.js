@@ -82,4 +82,17 @@ export default class Api {
       },
     }).then(this._checkRes);
   }
+
+  setAvatar(data) {
+    return fetch(`${this._apiUrl}${this._apiCogortId}/users/me/avatar`, {
+      method: "PATCH",
+      headers: {
+        authorization: this._apiToken,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        avatar: data.link,
+      }),
+    }).then(this._checkRes);
+  }
 }

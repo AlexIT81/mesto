@@ -12,8 +12,10 @@ import {
   validationConfig,
   triggerModalEdit,
   triggerModalAdd,
+  triggerModalAvatar,
   formElementEdit,
   formElementAdd,
+  formElementAvatar,
   apiToken,
   apiUrl,
   apiCogortId,
@@ -21,9 +23,12 @@ import {
 
 /** Валидация форм */
 const editFormValidator = new FormValidator(validationConfig, formElementEdit),
-  addFormValidator = new FormValidator(validationConfig, formElementAdd);
+  addFormValidator = new FormValidator(validationConfig, formElementAdd),
+  avatarFormValidator = new FormValidator(validationConfig, formElementAvatar);
+
 editFormValidator.enableValidation();
 addFormValidator.enableValidation();
+avatarFormValidator.enableValidation();
 
 /** Модалка с большой картинкой */
 const modalImage = new PopupWithImage(".popup_image");
@@ -45,7 +50,7 @@ api
     userInfo.setUserInfo(res);
   })
   .catch((err) => {
-    console.log(err);
+    console.error(err);
   });
 
 /** Открытие модалки с редактированием */
@@ -64,7 +69,7 @@ const modalEdit = new PopupWithForm({
         userInfo.setUserInfo(res);
       })
       .catch((err) => {
-        console.log(err); // выведем ошибку в консоль
+        console.error(err); // выведем ошибку в консоль
       });
     modalEdit.close();
   },
@@ -96,34 +101,33 @@ function createCard(data) {
               modalConfirm.close();
             })
             .catch((err) => {
-              console.log(err);
+              console.error(err);
             });
         });
       },
       handleLikeBtn: (e) => {
         const thisCardId = newCard.getCardId();
-        if (e.target.classList.contains('element__icon_active')) {
+        if (e.target.classList.contains("element__icon_active")) {
           api
-          .removeLike(thisCardId)
-          .then((res) => {
-            console.log(res.likes);
-            const likeQuantity = res.likes.length;
-            newCard.setLikeQuantity(likeQuantity);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+            .removeLike(thisCardId)
+            .then((res) => {
+              console.log(res.likes);
+              const likeQuantity = res.likes.length;
+              newCard.setLikeQuantity(likeQuantity);
+            })
+            .catch((err) => {
+              console.error(err);
+            });
         } else {
           api
-          .setLike(thisCardId)
-          .then((res) => {
-            console.log(res.likes);
-            const likeQuantity = res.likes.length;
-            newCard.setLikeQuantity(likeQuantity);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+            .setLike(thisCardId)
+            .then((res) => {
+              const likeQuantity = res.likes.length;
+              newCard.setLikeQuantity(likeQuantity);
+            })
+            .catch((err) => {
+              console.error(err);
+            });
         }
       },
     },
@@ -150,10 +154,10 @@ api
     cardsSection.rendererItems(res);
   })
   .catch((err) => {
-    console.log(err);
+    console.error(err);
   });
 
-/** Открытие модалки с добавлением карточки */
+/** Добавление карточки на страницу */
 triggerModalAdd.addEventListener("click", () => {
   modalAdd.open();
   addFormValidator.resetValidation();
@@ -169,7 +173,6 @@ const modalAdd = new PopupWithForm({
     api
       .addNewCard(data)
       .then((res) => {
-        console.log(res);
         const card = createCard(res);
         cardsSection.addItem(card);
       })
@@ -178,3 +181,23 @@ const modalAdd = new PopupWithForm({
   },
 });
 modalAdd.setEventListeners();
+
+/** Редактирование аватара пользователя */
+triggerModalAvatar.addEventListener("click", () => {
+  modalAvatar.open();
+  avatarFormValidator.resetValidation();
+});
+
+const modalAvatar = new PopupWithForm({
+  popupSelector: ".popup_update-avatar",
+  handleFormSubmit: (inputsValues) => {
+    api
+    .setAvatar(inputsValues)
+    .then((res) => {
+      userInfo.setUserAvatar(res);
+    })
+    .catch((err) => console.log(err));
+  modalAvatar.close();
+  },
+});
+modalAvatar.setEventListeners();
