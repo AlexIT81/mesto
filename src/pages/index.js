@@ -47,7 +47,7 @@ const cardsSection = new Section(
   {
     renderer: (data) => {
       const card = createCard(data);
-      cardsSection.addItem(card);
+      cardsSection.addItemAppend(card);
     },
   },
   ".elements"
@@ -126,13 +126,13 @@ const modalProfile = new PopupWithForm({
   },
 });
 
-function setListenersModalProfile() {
+function openProfileModal() {
   modalProfile.open();
   profileFormValidator.resetValidation();
   modalProfile.setInputValues(userInfo.getUserInfo());
 }
 
-triggerModalProfile.addEventListener("click", setListenersModalProfile);
+triggerModalProfile.addEventListener("click", openProfileModal);
 modalProfile.setEventListeners();
 
 /** Модалка с подтверждение */
@@ -156,7 +156,7 @@ const modalCard = new PopupWithForm({
       .addNewCard(data)
       .then((res) => {
         const card = createCard(res);
-        cardsSection.addItem(card);
+        cardsSection.addItemPrepend(card);
         modalCard.close();
       })
       .catch((err) => console.error(err))
@@ -166,11 +166,11 @@ const modalCard = new PopupWithForm({
   },
 });
 
-function setListenersModalCard() {
+function openCardModal() {
   modalCard.open();
   cardFormValidator.resetValidation();
 }
-triggerModalCard.addEventListener("click", setListenersModalCard);
+triggerModalCard.addEventListener("click", openCardModal);
 modalCard.setEventListeners();
 
 /** Модалка редактирования аватара пользователя */
@@ -191,12 +191,12 @@ const modalAvatar = new PopupWithForm({
   },
 });
 
-function setListenersModalAvatar() {
+function openAvatarModal() {
   modalAvatar.open();
   avatarFormValidator.resetValidation();
 }
 
-triggerModalAvatar.addEventListener("click", setListenersModalAvatar);
+triggerModalAvatar.addEventListener("click", openAvatarModal);
 modalAvatar.setEventListeners();
 
 /** Валидация форм */

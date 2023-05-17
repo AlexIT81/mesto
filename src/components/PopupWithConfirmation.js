@@ -3,6 +3,7 @@ import Popup from "./Popup.js";
 export default class PopupWithConfirm extends Popup {
   constructor(popupSelector) {
     super(popupSelector);
+    this._buttonPopup = this._popup.querySelector(".popup__button");
     this._form = this._popup.querySelector(".popup__form");
   }
 
@@ -16,11 +17,5 @@ export default class PopupWithConfirm extends Popup {
       e.preventDefault();
       this._handleSubmitConfirm();
     });
-  }
-
-  renderLoading(isLoading) {
-    isLoading
-      ? (this._buttonPopup.textContent = "Сохранение...")
-      : (this._buttonPopup.textContent = "Сохранить");
   }
 }
