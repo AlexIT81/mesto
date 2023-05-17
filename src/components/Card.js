@@ -5,7 +5,7 @@ export default class Card {
   ) {
     this._name = data.name;
     this._link = data.link;
-    this._likesQuantity = data.likes.length;
+    this._quantityLikes = data.likes.length;
     this._arrLikes = data.likes;
     this._cardId = data._id;
     this._cardOwnerId = data.owner._id;
@@ -79,7 +79,7 @@ export default class Card {
     this._cardImg.src = this._link;
     this._cardImg.alt = this._name;
     this._cardTitle.textContent = this._name;
-    this._elementOutputLikes.textContent = this._likesQuantity;
+    this._elementOutputLikes.textContent = this._quantityLikes;
     if (this.isLiked()) this._buttonLike.classList.add("element__icon_active");
     return this._element;
   }
