@@ -15,3 +15,10 @@
   cursor: pointer;
   opacity: 1;
 }
+
+@media (max-width: 730px) {
+  .profile__avatar-btn {
+    top: 0;
+    left: calc(50% - 60px);
+  }
+}

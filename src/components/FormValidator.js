@@ -44,7 +44,7 @@ export default class FormValidator {
   };
 
   /** Проверка инпутов формы на валидность */
-  _doAllInputsValid()  {
+  _isFormValid()  {
     return this._inputsList.every((inputElement) => {
       return inputElement.validity.valid;
     });
@@ -52,12 +52,12 @@ export default class FormValidator {
 
   /** Тоглим кнопку отправки формы */
   _toggleButtonState() {
-    if (this._doAllInputsValid()) {
+    if (this._isFormValid()) {
       this._buttonElement.classList.remove(this._inactiveButtonClass);
-      this._buttonElement.removeAttribute("disabled");
+      this._buttonElement.disabled = false;
     } else {
       this._buttonElement.classList.add(this._inactiveButtonClass);
-      this._buttonElement.setAttribute("disabled", true);
+      this._buttonElement.disabled = true;
     }
   };
 
@@ -74,8 +74,7 @@ export default class FormValidator {
 
   enableValidation() {
     this._setEventListeners();
-    this._formElement.addEventListener("submit", (e) => {
-      e.preventDefault();
+    this._formElement.addEventListener("submit", () => {
       this._toggleButtonState();
     });
   }

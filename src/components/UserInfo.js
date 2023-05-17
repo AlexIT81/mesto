@@ -6,11 +6,11 @@ export default class UserInfo {
   }
 
   getUserInfo() {
-    this._dataUser = {
+    return {
       name: this._name.textContent,
       job: this._job.textContent,
+      avatar: this._avatar.src,
     };
-    return this._dataUser;
   }
 
   setUserInfo(data) {
@@ -19,7 +19,7 @@ export default class UserInfo {
     this._job.textContent = about;
     this._avatar.alt = name;
     this._avatar.src = avatar;
-    this._myId = _id;
+    this._userId = _id;
   }
 
   setUserAvatar(data) {
@@ -27,6 +27,6 @@ export default class UserInfo {
   }
 
   getUserId() {
-    return this._myId;
+    return this._userId;
   }
 }

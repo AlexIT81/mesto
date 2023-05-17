@@ -1,8 +1,8 @@
 export default class Api {
-  constructor(apiToken, apiUrl, apiCogortId) {
+  constructor(apiToken, apiUrl, apiCohortId) {
     this._apiToken = apiToken;
     this._apiUrl = apiUrl;
-    this._apiCogortId = apiCogortId;
+    this._apiCohortId = apiCohortId;
   }
 
   _checkRes(res) {
@@ -13,7 +13,7 @@ export default class Api {
   }
 
   _getInitialCards() {
-    return fetch(`${this._apiUrl}${this._apiCogortId}/cards`, {
+    return fetch(`${this._apiUrl}${this._apiCohortId}/cards`, {
       headers: {
         authorization: this._apiToken,
       },
@@ -21,7 +21,7 @@ export default class Api {
   }
 
   getUserInfo() {
-    return fetch(`${this._apiUrl}${this._apiCogortId}/users/me`, {
+    return fetch(`${this._apiUrl}${this._apiCohortId}/users/me`, {
       headers: {
         authorization: this._apiToken,
       },
@@ -33,7 +33,7 @@ export default class Api {
   }
 
   editUserInfo({ name, job }) {
-    return fetch(`${this._apiUrl}${this._apiCogortId}/users/me`, {
+    return fetch(`${this._apiUrl}${this._apiCohortId}/users/me`, {
       method: "PATCH",
       headers: {
         authorization: this._apiToken,
@@ -47,7 +47,7 @@ export default class Api {
   }
 
   addNewCard(data) {
-    return fetch(`${this._apiUrl}${this._apiCogortId}/cards`, {
+    return fetch(`${this._apiUrl}${this._apiCohortId}/cards`, {
       method: "POST",
       headers: {
         authorization: this._apiToken,
@@ -61,7 +61,7 @@ export default class Api {
   }
 
   deleteCard(cardId) {
-    return fetch(`${this._apiUrl}${this._apiCogortId}/cards/${cardId}`, {
+    return fetch(`${this._apiUrl}${this._apiCohortId}/cards/${cardId}`, {
       method: "DELETE",
       headers: {
         authorization: this._apiToken,
@@ -70,7 +70,7 @@ export default class Api {
   }
 
   setLike(cardId) {
-    return fetch(`${this._apiUrl}${this._apiCogortId}/cards/${cardId}/likes`, {
+    return fetch(`${this._apiUrl}${this._apiCohortId}/cards/${cardId}/likes`, {
       method: "PUT",
       headers: {
         authorization: this._apiToken,
@@ -79,7 +79,7 @@ export default class Api {
   }
 
   removeLike(cardId) {
-    return fetch(`${this._apiUrl}${this._apiCogortId}/cards/${cardId}/likes`, {
+    return fetch(`${this._apiUrl}${this._apiCohortId}/cards/${cardId}/likes`, {
       method: "DELETE",
       headers: {
         authorization: this._apiToken,
@@ -88,7 +88,7 @@ export default class Api {
   }
 
   setAvatar(data) {
-    return fetch(`${this._apiUrl}${this._apiCogortId}/users/me/avatar`, {
+    return fetch(`${this._apiUrl}${this._apiCohortId}/users/me/avatar`, {
       method: "PATCH",
       headers: {
         authorization: this._apiToken,

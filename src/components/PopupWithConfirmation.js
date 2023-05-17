@@ -17,4 +17,10 @@ export default class PopupWithConfirm extends Popup {
       this._handleSubmitConfirm();
     });
   }
+
+  renderLoading(isLoading) {
+    isLoading
+      ? (this._buttonPopup.textContent = "Сохранение...")
+      : (this._buttonPopup.textContent = "Сохранить");
+  }
 }
